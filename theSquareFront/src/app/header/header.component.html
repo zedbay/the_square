@@ -1,0 +1,34 @@
+<header>
+  <div class="header-container container">
+    <div class="header-introduction">
+      <fa-icon [icon]="faShareAlt" routerLink="accueil"></fa-icon>
+      <input type="text" placeholder="Recherche">
+    </div>
+    <ul>
+      <li>
+        <button mat-button routerLink="accueil">
+          <fa-icon [icon]="faHome"></fa-icon>
+          <p>Accueil</p>
+        </button>
+      </li>
+      <li>
+        <button mat-button routerLink="emplois">
+          <fa-icon [icon]="faSuitcase"></fa-icon>
+          <p>Emplois</p>
+        </button>
+      </li>
+      <li>
+        <button mat-button routerLink="messagerie">
+          <fa-icon [icon]="faEnvelope"></fa-icon>
+          <p>Messagerie</p>
+        </button>
+      </li>
+      <li>
+        <button mat-button routerLink="profil">
+          <fa-icon [icon]="faUser"></fa-icon>
+          <p>Vous</p>
+        </button>
+      </li>
+    </ul>
+  </div>
+</header>

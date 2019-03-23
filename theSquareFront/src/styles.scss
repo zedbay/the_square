@@ -1,1 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+@import '../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import './shared/const.scss';
+
+.container {
+    width: 65%;
+    min-width: 650px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.element {
+    background-color: white;
+    border: rgb(173, 173, 173) solid 1px;
+    border-radius: 2px;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: $grey;
+    margin-top: 3em;
+}

@@ -1,0 +1,23 @@
+.accueil-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-top: 1em;
+}
+
+app-whoami {
+    width: 15%;
+    position: sticky;
+    top: 4em;
+}
+
+app-actualite {
+    width: calc(60% - 2em);
+    height: 1200px;
+}
+
+app-suggestion {
+    width: 25%;
+    position: sticky;
+    top: 4em;
+}

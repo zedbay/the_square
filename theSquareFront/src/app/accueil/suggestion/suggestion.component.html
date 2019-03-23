@@ -1,0 +1,34 @@
+<div id="suggestion-container">
+  <div id="entreprises">
+    <h2>Ces entreprise pourrait vous intéressez ...</h2>
+    <div class="card" *ngFor="let entreprise of entreprises">
+      <img src="../../../assets/entreprise.jpg" alt="{{ entreprise.nom }}">
+      <div class="card-description">
+        <h3>{{ entreprise.nom }}</h3>
+        <p>{{ entreprise.description }}</p>
+      </div>
+      <button mat-raised-button (click)="displayFollow(entreprise)">Suivre</button>
+    </div>
+  </div>
+  <div id="contacts">
+    <h2>Connaissez vous ?</h2>
+    <div class="card" *ngFor="let personne of personnes">
+      <img src="../../../assets/{{ personne.photo }}" alt="{{ personne.nom }}">
+      <div class="card-description">
+        <h3>{{ personne.nom }}</h3>
+        <p>{{ personne.intitule }}</p>
+      </div>
+      <button mat-raised-button (click)="displayAskFriend(personne)">Ajouter</button>
+    </div>
+  </div>
+  <div id="travails">
+    <h2>Ces offres d'emplois correspondent à votre formation :</h2>
+    <div class="card" *ngFor="let emploi of emplois">
+      <div class="card-description-emploi">
+        <h3>{{ emploi.intitule }}</h3>
+        <p>{{ emploi.description }}</p>
+      </div>
+      <button mat-raised-button routerLink="/emplois">Consulter</button>
+    </div>
+  </div>
+</div>
