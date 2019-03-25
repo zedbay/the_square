@@ -1,11 +1,23 @@
-@import '../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css';
-@import './shared/const.scss';
+@import '../node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
+@import './app/shared/scss/const.scss';
 
 .container {
     width: 65%;
-    min-width: 650px;
+    min-width: 1180px;
     margin-right: auto;
     margin-left: auto;
+}
+
+a {
+    color: $color-one;
+}
+
+h2.the-square-title {
+    color: white;
+    padding: .5em;
+    margin: 0;
+    font-size: 1.3em;
+    background-color: $color-one;
 }
 
 .element {
@@ -18,4 +30,67 @@
 body {
     background-color: $grey;
     margin-top: 3em;
+}
+
+.card {
+    margin-bottom: 1em;
+    border-radius: 2px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    img {
+        border-radius: 50%;
+        width: 20%;
+    }
+    .card-description {
+        width: calc(60% - 2em);
+        margin-left: 1em;
+        h3 {
+            margin: 0 0 .3em 0;
+            font-size: 1em;
+        }
+        p {
+            margin: 0;
+            font-size: .9em;
+        }
+    }
+    button {
+        width: 20%;
+        border: solid black 1px;
+    }
+    .card-description-emploi {
+        width: calc(80% - 2em);
+        margin-left: 1em;
+        h3 {
+            margin: 0 0 .3em 0;
+            font-size: 1em;
+        }
+        p {
+            margin: 0;
+            font-size: .9em;
+        }
+    }
+    .mat-raised-button {
+        padding: 0;
+        font-size: .8em;
+        color: $color-one;
+        background-color: $grey;
+    }
+}
+
+.mat-snack-bar-container {
+    background-color: $color-one;
+    color: white;
+    display: none;
+    width: 100px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    min-width: calc(17.5% - 2em) !important;
+    margin: 0 1em 0 0;
+}
+
+
+.mat-form-field-empty.mat-form-field-label {
+    opacity: 0.7;
 }

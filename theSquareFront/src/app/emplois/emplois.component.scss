@@ -1,0 +1,82 @@
+@import '../shared/scss/const.scss';
+
+.emplois-container  {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-top: 1em;
+}
+
+h2 {
+    font-size: 1.2em ;
+    margin: 0 0 1em 0;
+} 
+
+.aside {
+    width: 15%;
+    position: sticky;
+    top: 4em;
+    display: flex;
+    flex-direction: column;
+    app-whoami {
+        margin-bottom: 1em;
+    }
+    .recherche {
+        display: flex;
+        flex-direction: column;
+        mat-form-field {
+            width: calc(100% - 1em);
+        }
+        form {
+            padding: .5em;
+        }
+    }  
+    #search {
+        margin-right: 1em;
+        font-size: 1.1em;
+    }  
+}
+
+.resultat {
+    width: calc(60% - 2em);
+    height: 1200px;
+}
+
+.suggestions {
+    width: 25%;
+    position: sticky;
+    top: 4em;
+}
+
+.card {
+    padding: .5em;
+}
+
+.element-emplois {
+    display: flex;
+    margin-bottom: 1em;
+    align-items: flex-end;
+    justify-content: space-between;
+    .photo {
+        background-color: $color-one;
+        width: 3em;
+        padding: .5em;
+    }
+    img {
+        border-radius: 50%;
+        width: 6em;
+        border: solid white 2px;
+        &:hover {
+            cursor: pointer;
+        }
+    }
+    button {
+        margin: 0 1em 1em 0;
+    }
+    .description-emploi {
+        margin-left: 4em;
+        width: 60%;
+    }
+}
+
+

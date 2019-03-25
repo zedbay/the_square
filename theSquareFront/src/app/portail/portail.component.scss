@@ -1,0 +1,14 @@
+.portail-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-top: 1em;
+}
+
+app-connexion {
+    width: calc(60% - 1em);
+}
+
+app-inscription {
+    width: 40%;
+}

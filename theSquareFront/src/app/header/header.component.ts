@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { faShareAlt, IconDefinition, faHome, faSuitcase, faEnvelope, faUser, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faShareAlt, IconDefinition, faHome, faSuitcase, faEnvelope, faUser, faChevronDown, faPowerOff } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-header',
@@ -14,6 +14,7 @@ export class HeaderComponent implements OnInit {
   public faEnvelope: IconDefinition = faEnvelope;
   public faUser: IconDefinition = faUser;
   public faChevronDown: IconDefinition = faChevronDown;
+  public faPowerOff: IconDefinition = faPowerOff;
 
   constructor() { }
 

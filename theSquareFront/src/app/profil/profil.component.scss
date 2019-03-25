@@ -1,0 +1,14 @@
+#profil-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-top: 1em;
+}
+
+app-cv {
+    width: calc(75% - 1em);
+}
+
+app-liste-amis {
+    width: 25%;
+}

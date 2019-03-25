@@ -6,6 +6,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,7 +21,12 @@ import { ProfilComponent } from './profil/profil.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ActualiteComponent } from './accueil/actualite/actualite.component';
 import { SuggestionComponent } from './accueil/suggestion/suggestion.component';
-import { WhoamiComponent } from './accueil/whoami/whoami.component';
+import { WhoamiComponent } from './shared/components/whoami/whoami.component';
+import { CvComponent } from './profil/cv/cv.component';
+import { ListeAmisComponent } from './profil/liste-amis/liste-amis.component';
+import { PortailComponent } from './portail/portail.component';
+import { ConnexionComponent } from './portail/connexion/connexion.component';
+import { InscriptionComponent } from './portail/inscription/inscription.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +39,12 @@ import { WhoamiComponent } from './accueil/whoami/whoami.component';
     PageNotFoundComponent,
     ActualiteComponent,
     SuggestionComponent,
-    WhoamiComponent
+    WhoamiComponent,
+    CvComponent,
+    ListeAmisComponent,
+    PortailComponent,
+    ConnexionComponent,
+    InscriptionComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +54,11 @@ import { WhoamiComponent } from './accueil/whoami/whoami.component';
     MatFormFieldModule,
     MatInputModule,
     FontAwesomeModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSelectModule,
+    MatTableModule,
+    FormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

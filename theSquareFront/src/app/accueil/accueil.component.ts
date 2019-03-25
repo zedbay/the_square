@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Entreprise } from '../../shared/models/entreprise';
-import { Personne } from '../../shared/models/personne';
-import { Emploi } from '../../shared/models/emploi';
+import { Entreprise } from '../shared/models/entreprise';
+import { Personne } from '../shared/models/personne';
+import { Emploi } from '../shared/models/emploi';
+
+import { RandomModelsService } from '../shared/services/random-models.service';
 
 @Component({
   selector: 'app-accueil',
@@ -15,21 +17,13 @@ export class AccueilComponent implements OnInit {
   public emplois: Emploi[] = [];
   public iam: Personne;
 
-  constructor() { }
+  constructor(private randomModels: RandomModelsService) { }
 
   ngOnInit() {
-    this.iam = new Personne('Antoine Heurtault', 'Dévelopeur front', 'user1.jpg');
-
-    this.entreprises.push(new Entreprise('Mind7', 'Entreprise big data'));
-    this.entreprises.push(new Entreprise('La poste', 'Service de livraison de courrier'));
-
-    this.personnes.push(this.iam);
-    this.personnes.push(new Personne('Anthony Bohin', 'Gardien de la paix'));
-    this.personnes.push(new Personne('Eva Hugot', 'Guide touristique'));
-
-    this.emplois.push(new Emploi('Garde de chien et de chat', 'Garde d\'animaux', 1200));
-    this.emplois.push(new Emploi('Dévelopeur blockchain', 'Dévelopeur', 3200));
-    this.emplois.push(new Emploi('Docteur généraliste dans un cabinet idéalement situé en coeur de ville', 'Docteur', 1200));
+    this.iam = this.randomModels.getIam();
+    this.personnes = this.randomModels.getRandomPersonne(1);
+    this.entreprises = this.randomModels.getRandomEntreprise(2);
+    this.emplois = this.randomModels.getRandomEmplois(3);
   }
 
 }

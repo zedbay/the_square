@@ -1,4 +1,4 @@
-@import '../../../shared/const.scss';
+@import '../../shared/scss/const.scss';
 
 #suggestion-container {
     display: flex;
@@ -9,57 +9,10 @@
         margin: 0 0 1em 0;
     }
     #entreprises, #contacts {
-        border: rgb(173, 173, 173) solid;
         border-width: 0 0 1px 0;
         margin-bottom: 1em;
     }
-    #travails, #entreprises, #contacts {
-        padding: .5em;
-    }
 }
 
-.card {
-    margin-bottom: 1em;
-    border-radius: 2px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-evenly;
-    img {
-        border-radius: 50%;
-        width: 20%;
-    }
-    .card-description {
-        width: calc(60% - 2em);
-        margin-left: 1em;
-        h3 {
-            margin: 0 0 .3em 0;
-            font-size: 1em;
-        }
-        p {
-            margin: 0;
-            font-size: .9em;
-        }
-    }
-    button {
-        width: 20%;
-        border: solid black 1px;
-    }
-    .card-description-emploi {
-        width: calc(80% - 2em);
-        margin-left: 1em;
-        h3 {
-            margin: 0 0 .3em 0;
-            font-size: 1em;
-        }
-        p {
-            margin: 0;
-            font-size: .9em;
-        }
-    }
-    .mat-raised-button {
-        padding: 0;
-        font-size: .8em;
-        color: $color-one;
-        background-color: $grey;
-    }
-}
+
+

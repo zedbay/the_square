@@ -1,0 +1,36 @@
+<div class="inscription-container">
+	<h2 class="the-square-title">Inscription</h2>
+	<form #inscriptionForm="ngForm" (ngSubmit)="onSubmit(inscriptionForm)">
+		<mat-form-field class="example-full-width">
+			<input matInput placeholder="Votre prénom" type="text" id="prenom"
+				name="prenom" [(ngModel)]="prenom">
+		</mat-form-field>
+		<mat-form-field class="example-full-width">
+			<input matInput placeholder="Votre nom" type="text" id="nom"
+				name="nom" [(ngModel)]="nom">
+		</mat-form-field>
+		<mat-form-field class="example-full-width">
+			<input matInput placeholder="Votre email" type="email" id="email"
+				name="email" [(ngModel)]="email">
+		</mat-form-field>
+		<mat-form-field class="example-full-width">
+			<input matInput placeholder="Votre mot de passe" type="password"
+				id="password" name="password" [(ngModel)]="password">
+		</mat-form-field>
+		<mat-form-field class="example-full-width">
+			<input matInput placeholder="Confirmation de votre mot de passe"
+				type="password" id="passwordConfirmation"
+				name="passwordConfirmation" [(ngModel)]="passwordConfirmation">
+		</mat-form-field>
+		<mat-form-field>
+			<mat-label>Vous êtes</mat-label>
+			<mat-select id="label" name="label" [(ngModel)]="label">
+				<mat-option value="entreprise"> Entreprise </mat-option>
+				<mat-option value="ecole"> Ecole </mat-option>
+				<mat-option value="particulier"> Particulier </mat-option>
+			</mat-select>
+		</mat-form-field>
+		<button mat-flat-button color="primary"
+			type="submit">Inscription</button>
+	</form>
+</div>

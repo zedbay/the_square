@@ -1,0 +1,30 @@
+#amis {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    h2 {
+        font-size: 1.2em ;
+        margin: 0 0 1em 0;
+    }
+    padding: .5em;
+}
+
+#requete {
+    border: rgb(173, 173, 173) solid;
+    border-width: 0 0 1px 0;
+    margin-bottom: 1em;
+}
+
+#agree {
+    color: green;
+}
+
+#nop {
+    color: red;
+}
+
+#agree, #nop {
+    &:hover {
+        cursor: pointer;
+    }
+}

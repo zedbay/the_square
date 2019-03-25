@@ -2,6 +2,7 @@
   <div class="header-container container">
     <div class="header-introduction">
       <fa-icon [icon]="faShareAlt" routerLink="accueil"></fa-icon>
+      <h1>SocialBullshit</h1>
       <input type="text" placeholder="Recherche">
     </div>
     <ul>
@@ -29,6 +30,12 @@
           <p>Vous</p>
         </button>
       </li>
+      <li>
+          <button mat-button routerLink="portail">
+            <fa-icon [icon]="faPowerOff"></fa-icon>
+            <p>Déconnexion</p>
+          </button>
+        </li>
     </ul>
   </div>
 </header>

@@ -1,4 +1,64 @@
-<p>
-  emplois works!
-</p>
-Lorem ipsum dolor sit, amet consectetur adipisicing elit. Id placeat adipisci nam incidunt? Iste natus ipsam voluptatum nisi temporibus repellendus obcaecati cupiditate asperiores fugiat, sit rerum veniam, accusantium esse eum.
+<div class="emplois-container container">
+  <div class="aside">
+    <app-whoami class="element"></app-whoami>
+    <div class="recherche element">
+      <h2 class="the-square-title"><fa-icon [icon]="faSearch" id="search"></fa-icon>Recherche</h2>
+      <form>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Intitule">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Societe">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Salaire (K€ par an)">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Competences</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let competence of competences"
+              [value]="competence.intitule">
+              {{ competence.intitule }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Domaine d'activité</mat-label>
+          <mat-select>
+            <mat-option *ngFor="let domaine of domaines"
+              [value]="domaine.intitule">
+              {{ domaine.intitule }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="submit">
+          Rechercher
+        </button>
+      </form>
+    </div>
+  </div>
+  <div class="resultat">
+    <div class="element element-emplois" *ngFor="let emploi of emplois">
+      <div class="photo">
+        <img src="../../assets/{{ emploi.entreprise.photo }}"
+          alt="{{ emploi.entreprise.nom }}">
+      </div>
+      <div class="description-emploi">
+        <h2>{{ emploi.intitule }}</h2>
+        <p>{{ emploi.description }}</p>
+        <p>Salaire : {{ emploi.salaire }}</p>
+      </div>
+      <button mat-raised-button>Consulter</button>
+    </div>
+  </div>
+  <div class="suggestions element">
+    <h2 class="the-square-title">Ces offres d'emplois correspondent à votre formation</h2>
+    <div class="card" *ngFor="let emploi of emplois">
+      <div class="card-description-emploi">
+        <h3>{{ emploi.intitule }}</h3>
+        <p>{{ emploi.description }}</p>
+      </div>
+      <button mat-raised-button>Consulter</button>
+    </div>
+  </div>
+</div>

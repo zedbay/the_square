@@ -5,41 +5,42 @@ services:
   neo4j: 
     image: neo4j:3.0
     ports:
-      - "7474:7474"
+      - 7474:7474
+      - 7687:7687
     volumes:
       - ~/Projets/the_square/theSquareData:/data
     networks:
       - the-square-network
 
-  goBack:
-    image: golang
-    working_dir: /go/src/theSquareBack
-    volumes:
-      - ~/Projets/the_square/theSquareBack:/go/src/theSquareBack
-    ports:
-      - "8080:8080"
-    expose:
-      - "8080"
-    links:
-      - "neo4j:neo4j"
-    depends_on:
-      - neo4j
-    command: bash -c "go run main.go"
+  # goBack:
+  #   image: golang
+  #   working_dir: /go/src/theSquareBack
+  #   volumes:
+  #     - ~/Projets/the_square/theSquareBack:/go/src/theSquareBack
+  #   ports:
+  #     - "8080:8080"
+  #   expose:
+  #     - "8080"
+  #   links:
+  #     - "neo4j:neo4j"
+  #   depends_on:
+  #     - neo4j
+  #   command: bash -c "go get github.com/pilu/fresh && RUN go get -d -v ./... && RUN go install -v ./.."
 
-  angular:
-    working_dir: /usr/src/app
-    image: node
-    volumes:
-      - ~/Projets/the_square/theSquareFront:/usr/src/app
-    ports:
-      - "4200:4200"
-    expose: 
-      - "4200"
-    links:
-      - "goBack:goBack"
-    depends_on:
-      - goBack
-    command: bash -c "npm i && npm rebuild node-sass && npm start" 
+  # angular:
+  #   working_dir: /usr/src/app
+  #   image: node
+  #   volumes:
+  #     - ~/Projets/the_square/theSquareFront:/usr/src/app
+  #   ports:
+  #     - "4200:4200"
+  #   expose: 
+  #     - "4200"
+  #   links:
+  #     - "goBack:goBack"
+  #   depends_on:
+  #     - goBack
+  #   command: bash -c "npm i && npm rebuild node-sass && npm start" 
 
 networks:
   the-square-network:

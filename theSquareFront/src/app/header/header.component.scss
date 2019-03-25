@@ -1,4 +1,4 @@
-@import '../../shared/const.scss';
+@import '../shared/scss/const.scss';
 header {
     padding: 0 0;
     position: fixed;
@@ -10,8 +10,7 @@ header {
     color: white;
     ul {
         margin: 0 0 0.5em 0;
-        display: flex;
-        
+        display: flex;   
         li {
             display: flex;
             flex-direction: column;
@@ -28,7 +27,7 @@ header {
         }
     }
     h1 {
-        margin: 0;
+        margin: auto 0 auto .5em;
     }
     fa-icon {
         font-size: 2em;
