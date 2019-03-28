@@ -7,8 +7,10 @@
         <h3>{{ people.nom }}</h3>
         <p>{{ people.intitule }}</p>
       </div>
-      <fa-icon [icon]="faCheck" id="agree" (click)="onAcceptRequest(people)"></fa-icon>
-      <fa-icon [icon]="faTimes" id="nop" (click)="onRejectRequest(people)"></fa-icon>
+      <fa-icon [icon]="faCheck" id="agree" (click)="onAcceptRequest(people)">
+      </fa-icon>
+      <fa-icon [icon]="faTimes" id="nop" (click)="onRejectRequest(people)">
+      </fa-icon>
     </div>
   </div>
   <h2>Relations</h2>

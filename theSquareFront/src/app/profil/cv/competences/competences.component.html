@@ -1,0 +1,18 @@
+<div id="competences" class="element">
+  <h2 class="the-square-title">Compétences :<fa-icon [icon]="faHammer" (click)="show()"></fa-icon></h2>
+  <div class="liste" *ngFor="let competence of iam.competences">
+    <p>{{ competence.intitule }}</p>
+    <button mat-flat-button color="warn" *ngIf="showModify"><fa-icon [icon]="faMinus"></fa-icon></button>
+  </div>
+  <form #competenceForm="ngForm" (ngSubmit)="onSubmit(competenceForm)" *ngIf="showModify">
+    <mat-form-field>
+      <mat-label>Ajout d'une compétence ...</mat-label>
+      <mat-select id="competence" name="competence" [(ngModel)]="competence">
+        <mat-option value="entreprise"> Entreprise </mat-option>
+        <mat-option value="ecole"> Ecole </mat-option>
+        <mat-option value="particulier"> Particulier </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-flat-button color="primary" type="submit"><fa-icon [icon]="faPlus"></fa-icon></button>
+  </form>
+</div>

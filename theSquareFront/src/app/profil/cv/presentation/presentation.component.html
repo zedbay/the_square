@@ -1,0 +1,17 @@
+<div id="presentation" class="element">
+  <div class="photo">
+    <img src="../../../assets/{{ iam.photo }}" alt="{{ iam.nom }}">
+  </div>
+  <div class="description">
+    <h2>{{ iam.nom }}</h2>
+    <h3>{{ iam.intitule }}</h3>
+    <ul>
+      <li>
+        {{ iam.ville }}
+      </li>
+      <li>
+        {{ iam.dateDeNaissance | date: 'longDate' }}
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<div id="formations" class="element">
+  <h2 class="the-square-title">Formations :</h2>
+  <div class="description-formation" *ngFor="let formation of iam.formations">
+    <img src="../../../assets/entreprise.jpg"
+      alt="{{ formation.entreprise.nom }}">
+    <div class="details">
+      <h3>{{ formation.intitule }} : <span
+          class="date">{{ formation.debut | date: 'longDate' }} -
+          {{ formation.fin | date: 'longDate' }}</span></h3>
+      <p>{{ formation.description }}</p>
+    </div>
+  </div>
+</div>

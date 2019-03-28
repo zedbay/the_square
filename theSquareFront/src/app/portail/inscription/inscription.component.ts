@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { PortailService } from '../../shared/services/portail.service';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { MatSnackBar } from '@angular/material';
+import { NetworkService } from '../../shared/services/network.service';
 
 @Component({
 	selector: 'app-inscription',
@@ -12,22 +11,18 @@ import { MatSnackBar } from '@angular/material';
 })
 export class InscriptionComponent implements OnInit {
 
-	private userIsCreateSubs: Subscription;
-
 	constructor(
-		private portailService: PortailService, 
 		private router: Router,
-		private snackBar: MatSnackBar
+		private snackBar: MatSnackBar,
+		private networkService: NetworkService
 	) { }
 
-	ngOnInit() {
-		this.userIsCreateSubs = this.portailService.userIsCreateSubject.subscribe((userIsCreate: boolean) => {
-			userIsCreate ? this.onSuccess() : this.onFail();
-		});
-	}
+	ngOnInit() { }
 
 	public onSubmit(form: NgForm) {
-		this.portailService.createUser(form.value);
+		this.networkService.post('/create/user', form.value).subscribe((res) => {
+			res['success'] ? this.onSuccess() : this.onFail();
+		});
 	}
 
 	private onFail() {

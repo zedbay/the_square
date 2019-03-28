@@ -15,8 +15,6 @@ export interface PeriodicElement {
 })
 export class CvComponent implements OnInit {
 
-  public dataSource: any;
-
   @Input() iam: Personne;
 
   constructor() { }

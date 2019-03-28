@@ -27,6 +27,10 @@ import { ListeAmisComponent } from './profil/liste-amis/liste-amis.component';
 import { PortailComponent } from './portail/portail.component';
 import { ConnexionComponent } from './portail/connexion/connexion.component';
 import { InscriptionComponent } from './portail/inscription/inscription.component';
+import { FormationsComponent } from './profil/cv/formations/formations.component';
+import { CompetencesComponent } from './profil/cv/competences/competences.component';
+import { HobbiesComponent } from './profil/cv/hobbies/hobbies.component';
+import { PresentationComponent } from './profil/cv/presentation/presentation.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +48,11 @@ import { InscriptionComponent } from './portail/inscription/inscription.componen
     ListeAmisComponent,
     PortailComponent,
     ConnexionComponent,
-    InscriptionComponent
+    InscriptionComponent,
+    FormationsComponent,
+    CompetencesComponent,
+    HobbiesComponent,
+    PresentationComponent
   ],
   imports: [
     BrowserModule,

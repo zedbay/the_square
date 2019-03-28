@@ -1,0 +1,40 @@
+@import '../../../shared/scss/const.scss';
+
+h2 {
+    fa-icon {
+        float: right;
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+
+.liste {
+    border: solid $color-one;
+    border-width: 0 0 1px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &:nth-child(odd) {
+        background-color: rgb(228, 226, 226);
+    }
+    p {
+        margin: 1em;
+    }
+    button {
+        margin-right: 1em;
+    }
+}
+
+form {
+    margin: 0 1em 0 1em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    button {
+        width: calc(20% - .5em);
+    }
+    mat-form-field {
+        width: calc(80% - .5em);
+    }
+}

@@ -1,0 +1,36 @@
+@import '../../../shared/scss/const.scss';
+
+#presentation {
+    margin-bottom: 1em;
+}
+
+.photo {
+    background-color: $color-one;
+    width: 100%;
+    height: 8em;
+    img {
+        width: 13em;
+        border-radius: 50%;
+        margin: 2em 0 0 2em;
+        border: solid 3px white;
+    }
+}
+
+.description {
+    margin: 0 0 0 16em;
+    ul {
+        list-style: none;
+        margin: 1em 0 0 0;
+        padding: 0 0 0 4em;
+        li {
+            font-size: 1em;
+            margin-bottom: .5em;
+            opacity: 0.8;
+        }
+    }
+    h3 {
+        font-size: 1.1em;
+        margin: 0 0 0 1em;
+        opacity: 0.8;
+    }
+}

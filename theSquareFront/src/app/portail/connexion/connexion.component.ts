@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { PortailService } from '../../shared/services/portail.service';
+import { NetworkService } from '../../shared/services/network.service';
 import { NgForm } from '@angular/forms';
- 
+
 @Component({
-  selector: 'app-connexion',
-  templateUrl: './connexion.component.html',
-  styleUrls: ['./connexion.component.scss']
+	selector: 'app-connexion',
+	templateUrl: './connexion.component.html',
+	styleUrls: ['./connexion.component.scss']
 })
 export class ConnexionComponent implements OnInit {
 
-  constructor(private portailService: PortailService) { }
+	constructor(private networkService: NetworkService) { }
 
-  ngOnInit() {
+	ngOnInit() { }
 
-  }
-
-  public onSubmit(form: NgForm) {
-    this.portailService.login(form.value);
-  }
+	public onSubmit(form: NgForm) {
+		this.networkService.post('/login', form.value).subscribe((res) => {
+			console.log(res);
+		})
+	}
 
 }
