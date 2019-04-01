@@ -2,12 +2,15 @@
 	<h2 class="the-square-title">Connexion</h2>
 	<form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
 		<mat-form-field class="example-full-width">
-			<input matInput placeholder="Email" type="email" id="email" name="email" [(ngModel)]="email">
+			<input matInput placeholder="Email" type="email" id="email"
+				name="email" [(ngModel)]="email">
 		</mat-form-field>
 		<mat-form-field class="example-full-width">
-			<input matInput placeholder="mot de passe" type="password" id="password" name="password" [(ngModel)]="password">
+			<input matInput placeholder="mot de passe" type="password"
+				id="password" name="password" [(ngModel)]="password">
 		</mat-form-field>
 		<button mat-flat-button color="primary" type="submit">Connexion</button>
+		<p *ngIf="loginFail">Echec de la connexion</p>
 	</form>
 	<a routerLink="">Mot de passe oublié ?</a>
 </div>

@@ -11,16 +11,16 @@ export class Skill {
 
   public static mountRoutes(express: Express, neo4j: Neo4j) {
     const router: Router = Router();
-    router.post("/Skill/:idSKill/:typeEntity/:idEntity", (req, res) => {
+    router.post("/skill/:idSKill/:typeEntity/:idEntity", (req, res) => {
       return Skill.add(req, res, neo4j);
     });
-    router.get("/Skill/:typeEntity/:idEntity", (req, res) => {
+    router.get("/skill/:typeEntity/:idEntity", (req, res) => {
       return Skill.get(req, res, neo4j);
     });
-    router.get("/Skill", (req, res) => {
+    router.get("/skill", (req, res) => {
       return Skill.getSkills(req, res, neo4j);
     });
-    router.delete("/Skill/:idSkill/:typeEntity/:idEntity", (req, res) => {
+    router.delete("/skill/:idSkill/:typeEntity/:idEntity", (req, res) => {
       return Skill.delete(req, res, neo4j);
     });
     express.use("/", router);
@@ -40,15 +40,17 @@ export class Skill {
       .then(() => {
         neo4j.session.close();
         neo4j.driver.close();
-        return res.status(200).json({ success: true });
+        return res.status(204).json({});
       });
   }
 
   private static getSkills(req: any, res: any, neo4j: Neo4j) {
     neo4j.session.run(`MATCH (s:Skill) RETURN s`).then(retour => {
-      neo4j.session.close();
-      neo4j.driver.close();
-      return res.status(200).json({ success: true, resultat: retour.records });
+      const tmp = [];
+      for (let i = 0; i < retour.records.length; i++) {
+        tmp.push(retour.records[i].get(0));
+      }
+      return res.status(200).json({ data: tmp });
     });
   }
 
@@ -63,11 +65,11 @@ export class Skill {
         }
       )
       .then(retour => {
-        neo4j.session.close();
-        neo4j.driver.close();
-        return res
-          .status(200)
-          .json({ success: true, resultat: retour.records });
+        const tmp = [];
+        for (let i = 0; i < retour.records.length; i++) {
+          tmp.push(retour.records[i].get(0));
+        }
+        return res.status(200).json({ data: tmp });
       });
   }
 

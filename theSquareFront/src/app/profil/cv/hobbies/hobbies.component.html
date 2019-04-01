@@ -1,16 +1,21 @@
 <div id="hobbies" class="element">
-  <h2 class="the-square-title">Hobbies :<fa-icon [icon]="faHammer" (click)="show()"></fa-icon></h2>
-  <div class="liste" *ngFor="let hobbie of iam.hobbies">
-    <p>{{ hobbie.intitule }}</p>
-    <button mat-flat-button color="warn" *ngIf="showModify"><fa-icon [icon]="faMinus"></fa-icon></button>
+  <h2 class="the-square-title">Hobbies :<fa-icon [icon]="faHammer"
+      (click)="show()"></fa-icon>
+  </h2>
+  <div class="liste" *ngFor="let hobby of userHobbies; let i = index">
+    <p>{{ hobby }}</p>
+    <button mat-flat-button color="warn" *ngIf="showModify"
+      (click)="removeHobby(i)">
+      <fa-icon [icon]="faMinus"></fa-icon>
+    </button>
   </div>
   <form #hobbyForm="ngForm" (ngSubmit)="onSubmit(hobbyForm)" *ngIf="showModify">
     <mat-form-field>
       <mat-label>Ajout d'un hobby ...</mat-label>
       <mat-select id="hobby" name="hobby" [(ngModel)]="hobby">
-        <mat-option value="entreprise"> Entreprise </mat-option>
-        <mat-option value="ecole"> Ecole </mat-option>
-        <mat-option value="particulier"> Particulier </mat-option>
+        <mat-option value="{{ hobby }}" *ngFor="let hobby of hobbies">
+          {{ hobby }}
+        </mat-option>
       </mat-select>
     </mat-form-field>
     <button mat-flat-button color="primary" type="submit">

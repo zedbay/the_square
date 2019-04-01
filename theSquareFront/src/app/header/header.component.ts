@@ -16,7 +16,18 @@ export class HeaderComponent implements OnInit {
   public faChevronDown: IconDefinition = faChevronDown;
   public faPowerOff: IconDefinition = faPowerOff;
 
-  constructor() { }
+  public userIsLogged: boolean;
+  public valueOnOff: string;
+
+  constructor() {
+    if (localStorage.getItem('token')) {
+      this.userIsLogged = true;
+      this.valueOnOff = "Déconnexion";
+    } else {
+      this.userIsLogged = false;
+      this.valueOnOff = "Connexion";
+    }
+  }
 
   ngOnInit() {
   }

@@ -6,36 +6,36 @@
       <input type="text" placeholder="Recherche">
     </div>
     <ul>
-      <li>
+      <li *ngIf="userIsLogged">
         <button mat-button routerLink="accueil">
           <fa-icon [icon]="faHome"></fa-icon>
           <p>Accueil</p>
         </button>
       </li>
-      <li>
+      <li *ngIf="userIsLogged">
         <button mat-button routerLink="emplois">
           <fa-icon [icon]="faSuitcase"></fa-icon>
           <p>Emplois</p>
         </button>
       </li>
-      <li>
+      <li *ngIf="userIsLogged">
         <button mat-button routerLink="messagerie">
           <fa-icon [icon]="faEnvelope"></fa-icon>
           <p>Messagerie</p>
         </button>
       </li>
-      <li>
+      <li *ngIf="userIsLogged">
         <button mat-button routerLink="profil">
           <fa-icon [icon]="faUser"></fa-icon>
           <p>Vous</p>
         </button>
       </li>
       <li>
-          <button mat-button routerLink="portail">
-            <fa-icon [icon]="faPowerOff"></fa-icon>
-            <p>Déconnexion</p>
-          </button>
-        </li>
+        <button mat-button routerLink="portail">
+          <fa-icon [icon]="faPowerOff"></fa-icon>
+          <p>{{ valueOnOff }}</p>
+        </button>
+      </li>
     </ul>
   </div>
 </header>

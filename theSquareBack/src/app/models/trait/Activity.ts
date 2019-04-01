@@ -40,7 +40,7 @@ export class Activity {
       .then(() => {
         neo4j.session.close();
         neo4j.driver.close();
-        return res.status(200).json({ success: true });
+        return res.status(204).json({});
       });
   }
 
@@ -48,7 +48,7 @@ export class Activity {
     neo4j.session.run(`MATCH (a:Activity) RETURN a`).then(retour => {
       neo4j.session.close();
       neo4j.driver.close();
-      return res.status(200).json({ success: true, resultat: retour.records });
+      return res.status(200).json({ data: retour.records });
     });
   }
 
