@@ -62,7 +62,7 @@ export class Hobby {
   }
 
   private static getHobbies(req: any, res: any, neo4j: Neo4j) {
-    neo4j.session.run(`MATCH (h:Hobby) RETURN h`).then(retour => {
+    return neo4j.session.run(`MATCH (h:Hobby) RETURN h`).then(retour => {
       const tmp = [];
       for (let i = 0; i < retour.records.length; i++) {
         tmp.push(retour.records[i].get(0));

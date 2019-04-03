@@ -21,6 +21,7 @@ export class CompetencesComponent implements OnInit {
   public faHammer: IconDefinition = faHammer;
   public showModify: boolean = false;
   public skills: string[] = [];
+  public userSkills: string[] = [];
 
   constructor(private networkService: NetworkService) {
     this.loadUserSkills();
@@ -30,16 +31,47 @@ export class CompetencesComponent implements OnInit {
   ngOnInit() {}
 
   public onSubmit(form: NgForm) {
-    console.log(form.value);
+    this.networkService
+      .post(
+        "/skill/" + form.value.skill + "/" + localStorage.getItem("token"),
+        {}
+      )
+      .subscribe(e => {
+        this.userSkills.push(form.value.skill);
+      });
+  }
+
+  public removeSkill(index: number) {
+    this.networkService
+      .delete(
+        "/skill/" + this.userSkills[index] + "/" + localStorage.getItem("token")
+      )
+      .subscribe(() => {
+        if (this.userSkills.length === 1) {
+          this.userSkills = [];
+        } else {
+          this.userSkills.splice(index, index);
+        }
+      });
   }
 
   private loadSkills() {
-    this.networkService.get("/Skill").subscribe(e => {
-      console.log(e["data"]);
+    this.networkService.get("/skill").subscribe(e => {
+      for (let i = 0; i < e["data"].length; i++) {
+        this.skills.push(e["data"][i]["properties"]["entitled"]);
+      }
     });
   }
 
-  private loadUserSkills() {}
+  private loadUserSkills() {
+    this.networkService
+      .get("/skill/" + localStorage.getItem("token"))
+      .subscribe(e => {
+        for (let i = 0; i < e["data"].length; i++) {
+          this.userSkills.push(e["data"][i]["properties"]["entitled"]);
+        }
+      });
+  }
 
   public show() {
     this.showModify = !this.showModify;

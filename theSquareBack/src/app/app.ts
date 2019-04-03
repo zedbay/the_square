@@ -7,6 +7,7 @@ import { Activity } from "./models/trait/Activity";
 import { Skill } from "./models/trait/Skill";
 import { Job } from "./models/Job";
 import { Entity } from "./models/entity/Entity";
+import { Lived } from "./models/lived/Lived";
 
 class App {
   public express: express.Express = express();
@@ -27,6 +28,7 @@ class App {
     });
     this.express.use("/", router);
 
+    Lived.mountRoutes(this.express, this.neo4j);
     Entity.mountRoutes(this.express, this.neo4j);
     Activity.mountRoutes(this.express, this.neo4j);
     Hobby.mountRoutes(this.express, this.neo4j);

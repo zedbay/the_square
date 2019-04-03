@@ -1,18 +1,24 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Personne } from 'src/app/shared/models/personne';
+import { Component, OnInit, Input } from "@angular/core";
+import { NetworkService } from "../../../shared/services/network.service";
 
 @Component({
-  selector: 'app-presentation',
-  templateUrl: './presentation.component.html',
-  styleUrls: ['./presentation.component.scss']
+  selector: "app-presentation",
+  templateUrl: "./presentation.component.html",
+  styleUrls: ["./presentation.component.scss"]
 })
 export class PresentationComponent implements OnInit {
+  public iam = {
+    name: "",
+    firstName: ""
+  };
 
-  @Input() iam: Personne;
-
-  constructor() { }
-
-  ngOnInit() {
+  constructor(private networkService: NetworkService) {
+    this.networkService
+      .get("/entity/" + localStorage.getItem("token"))
+      .subscribe(e => {
+        this.iam = e["data"]["properties"];
+      });
   }
 
+  ngOnInit() {}
 }

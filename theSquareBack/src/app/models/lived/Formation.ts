@@ -1,21 +1,32 @@
 import { Lived } from "./Lived";
-import { Person } from "../entity/Person";
+import { Token } from "../Token";
+import { Express, Router } from "express";
+import { Neo4j } from "../../neo4j";
 
-export class Formation extends Lived {
+export class Formation {
+  public static mountRoutes(expres: Express, neo4j: Neo4j) {
+    const router: Router = Router();
+    router.post("/formation/:token", (req, res) => {
+      this.create(req, res, neo4j);
+    });
+    router.get("/formation/:token", (req, res) => {
+      this.get(req, res, neo4j);
+    });
+    router.delete("/formation/:entitled/:token", (req, res) => {
+      this.delete(req, res, neo4j);
+    });
+    expres.use("/", router);
+  }
 
-    constructor(value: Object) {
-        super(value);
-    }
+  private static create(req: any, res: any, neo4j: Neo4j) {
+    console.log("création");
+  }
 
-    public static add(person: Person) { 
+  private static get(req: any, res: any, neo4j: Neo4j) {
+    console.log("accès");
+  }
 
-    }
-
-    public static get(person: Person) {
-
-    }
-    
-    public static remove(person: Person) {
-
-    }
+  private static delete(req: any, res: any, neo4j: Neo4j) {
+    console.log("suppresion");
+  }
 }

@@ -16,10 +16,7 @@ export class Professional {
   }
 
   private static create(req: any, res: any, neo4j: Neo4j) {
-    if (
-      req.params.typeProfessional != "School" &&
-      req.params.typeProfessional != "Entreprise"
-    ) {
+    if (req.params.typeProfessional != "Entreprise") {
       return res.status(404).json();
     }
     neo4j.session

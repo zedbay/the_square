@@ -25,6 +25,11 @@ CREATE (:Entreprise { name: 'Epitech', email: 'e@gmail.com', password: 'a'})
 CREATE (:Entreprise { name: 'Paul', email: 'p@gmail.com', password: 'a'})
 CREATE (:Entreprise { name: 'Google', email: 'g@gmail.com', password: 'a'})
 
+CREATE (:School { name: 'Epitech', email: 'epitech@gmail.com', password: 'a'})
+CREATE (:School { name: 'Université Paris Descartes', email: 'upd@gmail.com', password: 'a'})
+CREATE (:School { name: 'Lycée Jules Vernes', email: 'ljc@gmail.com', password: 'a'})
+CREATE (:School { name: 'Collège les 3 moulins', email: 'clg3m@gmail.com', password: 'a'})
+
 CREATE (:Skill { entitled: 'Organisation' })
 CREATE (:Skill { entitled: 'Autonomie' })
 CREATE (:Skill { entitled: 'Adaptation' })
