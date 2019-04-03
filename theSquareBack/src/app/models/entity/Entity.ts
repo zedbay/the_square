@@ -13,7 +13,7 @@ export class Entity {
   public name: string;
   public activitys: Activity[];
 
-  constructor() {}
+  constructor() { }
 
   public static mountRoutes(express: Express, neo4j: Neo4j) {
     const router = Router();
@@ -39,8 +39,8 @@ export class Entity {
   private static login(req: any, res: any, neo4j: Neo4j) {
     console.log("Un utilisateur tente de se connecter");
     neo4j.session
-      .run(`MATCH (a { email: "${ req.body.email }", password: "${ req.body.password }" }) RETURN a`)
-      .then((result) => {
+      .run(`MATCH (a { email: "${req.body.email}", password: "${req.body.password}" }) RETURN a`)
+      .then(result => {
         if (!result.records[0]) {
           return res.status(200).json({ success: false });
         } else {
@@ -49,22 +49,20 @@ export class Entity {
             result.records[0].get(0).labels[0],
             neo4j
           ).then(token => {
-            return res.status(200).json({ token: token });
+            return res.status(200).json({ token: token, id: result.records[0].get(0).identity.low, type: result.records[0].get(0).labels[0] });
           });
         }
       });
   }
 
   private static get(req: any, res: any, neo4j: Neo4j) {
-    console.log(req.headers['authorization']);
-    // return Token.get(req.params.token, neo4j).then(resultat => {
-    //   return neo4j.session
-    //     .run(`MATCH (e:${resultat.type}) WHERE ID(e) = $idPerson RETURN e`, {
-    //       idPerson: resultat.id
-    //     })
-    //     .then(retour => {
-    //       return res.status(200).json({ data: retour.records[0].get(0) });
-    //     });
-    // });
+    console.info("Accès au détail d'un utilisateur");
+    return Token.get(req.headers["authorization"], neo4j).then(resultat => {
+      neo4j.session
+        .run(`MATCH (e:${resultat.type}) WHERE ID(e) = ${resultat.id} RETURN e`)
+        .then(retour => {
+          return res.status(200).json({ data: retour.records[0].get(0) });
+        });
+    });
   }
 }

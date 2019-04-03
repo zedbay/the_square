@@ -17,11 +17,13 @@ export class ConnexionComponent implements OnInit {
   ngOnInit() { }
 
   public onSubmit(form: NgForm) {
-    this.networkService.post("/Login", form.value).subscribe(res => {
+    this.networkService.post("login", form.value).subscribe(res => {
       if (res["success"] == false) {
         this.loginFail = true;
       } else {
         localStorage.setItem("token", res['token']);
+        localStorage.setItem("id", res['id']);
+        localStorage.setItem("type", res['type']);
         this.router.navigate(['/']);
       }
     });

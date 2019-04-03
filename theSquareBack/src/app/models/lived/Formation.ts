@@ -1,6 +1,7 @@
-import { Token } from "../Token";
 import { Express, Router } from "express";
 import { Neo4j } from "../../neo4j";
+import { v1 } from "neo4j-driver";
+import { Token } from "../Token";
 
 export class Formation {
   public static mountRoutes(expres: Express, neo4j: Neo4j) {
@@ -18,14 +19,32 @@ export class Formation {
   }
 
   private static create(req: any, res: any, neo4j: Neo4j) {
-    console.log("Création d'une formation");
+    return Token.get(req.headers["authorization"], neo4j).then(resultat => {
+      neo4j.session
+        .run(`MATCH (e:${resultat.type}), (s:School { name: "${req.body.school}" }) WHERE ID(e) = ${resultat.id}
+          CREATE (f:Formation { entitled: "${req.body.entitled}", description: "${req.body.description}", endDate: "${req.body.endDate}", 
+          startDate: "${req.body.startDate}" }), (e)-[:STUDY]->(f), (f)-[:IN]->(s) RETURN f`)
+        .then((formation) => {
+          return res.status(201).json({ data: formation.records[0].get(0).properties });
+        });
+    });
   }
 
   private static get(req: any, res: any, neo4j: Neo4j) {
-    console.log("Accès aux formations d'un utilisateur");
+    neo4j.session
+      .run(`MATCH (p:Person)-[:STUDY]->(f:Formation) WHERE ID(p) = ${v1.int(req.params.idPerson)} RETURN f`)
+      .then(retour => {
+        return res.status(200).json({ data: retour.records.map(element => element.get(0)) });
+      });
   }
 
   private static delete(req: any, res: any, neo4j: Neo4j) {
-    console.log("Suppresion d'une formation");
+    return Token.get(req.headers["authorization"], neo4j).then(resultat => {
+      neo4j.session
+        .run(`MATCH (e:${resultat.type})-[s:STUDY]->(f:Formation { entitled: "${req.params.entitled}" }) WHERE ID(e) = ${resultat.id} DETACH DELETE f`)
+        .then(() => {
+          return res.status(200).json({});
+        });
+    });
   }
 }

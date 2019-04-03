@@ -1,6 +1,7 @@
 import { Router, Express } from "express";
 import { Neo4j } from "../../neo4j";
 import { Token } from "../Token";
+import { v1 } from "neo4j-driver";
 
 export class Skill {
   public entitled: string;
@@ -14,31 +15,32 @@ export class Skill {
     router.post("/", (req, res) => {
       return Skill.add(req, res, neo4j);
     });
-    router.get("/entity/:idEntity", (req, res) => {
+    router.get("/:typeEntity/:idEntity", (req, res) => {
       return Skill.get(req, res, neo4j);
     });
     router.get("/", (req, res) => {
       return Skill.getSkills(req, res, neo4j);
     });
-    router.delete("/:entitled/entity/:idEntity", (req, res) => {
+    router.delete("/:entitled", (req, res) => {
       return Skill.delete(req, res, neo4j);
     });
     express.use("/skill", router);
   }
 
+  private static delete(req: any, res: any, neo4j: Neo4j) {
+    return Token.get(req.headers["authorization"], neo4j).then(resultat => {
+      neo4j.session
+        .run(`MATCH (e:${resultat.type})-[r:HAVENEED]->(s:Skill { entitled: "${req.params.entitled}" }) WHERE ID(e) = ${resultat.id} DETACH DELETE r`)
+        .then(() => {
+          return res.status(200).json({});
+        });
+    });
+  }
+
   private static add(req: any, res: any, neo4j: Neo4j) {
-    console.log("Ajout d'une compétence pour une entité");
-    return Token.get(req.params.token, neo4j).then(resultat => {
-      return neo4j.session
-        .run(
-          `MATCH (e:${
-            resultat.type
-          }),(s:Skill { entitled: $entitled }) WHERE ID(e) = $idEntity CREATE (e)-[:HAVENEED]->(s)`,
-          {
-            idEntity: resultat.id,
-            entitled: req.params.entitled
-          }
-        )
+    return Token.get(req.headers["authorization"], neo4j).then(resultat => {
+      neo4j.session
+        .run(`MATCH (e:${resultat.type}),(s:Skill { entitled: "${req.body.entitled}" }) WHERE ID(e) = ${resultat.id} CREATE (e)-[:HAVENEED]->(s)`)
         .then(() => {
           return res.status(204).json({});
         });
@@ -46,54 +48,19 @@ export class Skill {
   }
 
   private static getSkills(req: any, res: any, neo4j: Neo4j) {
-    console.log("Accès aux compétences");
-    return neo4j.session.run(`MATCH (s:Skill) RETURN s`).then(retour => {
-      const tmp = [];
-      for (let i = 0; i < retour.records.length; i++) {
-        tmp.push(retour.records[i].get(0));
-      }
-      return res.status(200).json({ data: tmp });
-    });
+    neo4j.session
+      .run(`MATCH (s:Skill) RETURN s`)
+      .then(retour => {
+        return res.status(200).json({ data: retour.records.map(element => element.get(0)) });
+      });
   }
 
   private static get(req: any, res: any, neo4j: Neo4j) {
-    console.log("Accès aux compétences d'une entité");
-    return Token.get(req.token, neo4j).then(resultat => {
-      return neo4j.session
-        .run(
-          `MATCH (e:${
-            resultat.type
-          })-[:HAVENEED]->(s:Skill) WHERE ID(e) = $idEntity RETURN s`,
-          {
-            idEntity: resultat.id
-          }
-        )
-        .then(retour => {
-          const tmp = [];
-          for (let i = 0; i < retour.records.length; i++) {
-            tmp.push(retour.records[i].get(0));
-          }
-          return res.status(200).json({ data: tmp });
-        });
-    });
+    neo4j.session
+      .run(`MATCH (e:${req.params.typeEntity})-[:HAVENEED]->(s:Skill) WHERE ID(e) = ${v1.int(req.params.idEntity)} RETURN s`)
+      .then(retour => {
+        return res.status(200).json({ data: retour.records.map(element => element.get(0)) });
+      });
   }
 
-  private static delete(req: any, res: any, neo4j: Neo4j) {
-    console.log("Suppresion d'une compétence d'une entité");
-    return Token.get(req.params.token, neo4j).then(resultat => {
-      neo4j.session
-        .run(
-          `MATCH (e:${
-            resultat.type
-          })-[r:HAVENEED]->(s:Skill { entitled: $entitled }) WHERE ID(e) = $idEntity DETACH DELETE r`,
-          {
-            idEntity: resultat.id,
-            entitled: req.params.entitled
-          }
-        )
-        .then(() => {
-          return res.status(200).json({});
-        });
-    });
-  }
 }

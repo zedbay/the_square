@@ -2,68 +2,41 @@
   <h2 class="the-square-title">
     Formations :<fa-icon [icon]="faHammer" (click)="show()"></fa-icon>
   </h2>
-  <div
-    class="description-formation"
-    *ngFor="let formation of iam.formations; let i = index"
-  >
-    <img
-      src="../../../assets/entreprise.jpg"
-      alt="{{ formation.entreprise.nom }}"
-    />
+  <div class="description-formation"
+    *ngFor="let formation of formations; let i = index">
+    <img src="../../../assets/entreprise.jpg" alt="nom" />
     <div class="details">
       <h3>
-        {{ formation.intitule }} :
-        <span class="date"
-          >{{ formation.debut | date: "longDate" }} -
-          {{ formation.fin | date: "longDate" }}</span
-        >
+        {{ formation.entitled }}
+        <span class="date">
+          {{ formation.startDate | date: "longDate" }} -
+          {{ formation.endDate | date: "longDate" }} </span>
       </h3>
-      <p>{{ formation.description }}</p>
-      <a (click)="onDeleteFormation(i)" *ngIf="showModify">Supprimer</a>
+      <p>{{ formation.description }} </p>
+      <a (click)="onDeleteFormation(formation.entitled, i)"
+        *ngIf="showModify">Supprimer</a>
     </div>
   </div>
   <div class="form-container" *ngIf="showModify">
     <form #formationForm="ngForm" (ngSubmit)="onSubmit(formationForm)">
       <mat-form-field class="example-full-width intitule">
-        <input
-          matInput
-          placeholder="Intitulé"
-          type="text"
-          id="intitule"
-          name="intitule"
-          [(ngModel)]="intitule"
-        />
+        <input matInput placeholder="Intitulé" type="text" id="entitled"
+          name="entitled" [(ngModel)]="entitled" />
       </mat-form-field>
 
       <mat-form-field class="datePicker">
-        <input
-          matInput
-          [matDatepicker]="pickerStart"
-          placeholder="Début ..."
-          id="start"
-          name="start"
-          [(ngModel)]="start"
-        />
-        <mat-datepicker-toggle
-          matSuffix
-          [for]="pickerStart"
-        ></mat-datepicker-toggle>
+        <input matInput [matDatepicker]="pickerStart" placeholder="Début ..."
+          id="startDate" name="startDate" [(ngModel)]="startDate" />
+        <mat-datepicker-toggle matSuffix [for]="pickerStart">
+        </mat-datepicker-toggle>
         <mat-datepicker #pickerStart></mat-datepicker>
       </mat-form-field>
 
       <mat-form-field class="datePicker">
-        <input
-          matInput
-          [matDatepicker]="pickerEnd"
-          placeholder="Fin ..."
-          id="end"
-          name="end"
-          [(ngModel)]="end"
-        />
-        <mat-datepicker-toggle
-          matSuffix
-          [for]="pickerEnd"
-        ></mat-datepicker-toggle>
+        <input matInput [matDatepicker]="pickerEnd" placeholder="Fin ..."
+          id="endDate" name="endDate" [(ngModel)]="endDate" />
+        <mat-datepicker-toggle matSuffix [for]="pickerEnd">
+        </mat-datepicker-toggle>
         <mat-datepicker #pickerEnd></mat-datepicker>
       </mat-form-field>
 
@@ -77,14 +50,8 @@
       </mat-form-field>
 
       <mat-form-field class="example-full-width description">
-        <input
-          matInput
-          placeholder="Description"
-          type="text"
-          id="description"
-          name="description"
-          [(ngModel)]="description"
-        />
+        <input matInput placeholder="Description" type="text" id="description"
+          name="description" [(ngModel)]="description" />
       </mat-form-field>
 
       <button mat-flat-button color="primary" type="submit">

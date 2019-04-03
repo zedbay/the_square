@@ -15,7 +15,6 @@ import { NetworkService } from "../../../shared/services/network.service";
   styleUrls: ["./competences.component.scss"]
 })
 export class CompetencesComponent implements OnInit {
-  @Input() iam: Personne;
   public faPlus: IconDefinition = faPlus;
   public faMinus: IconDefinition = faMinus;
   public faHammer: IconDefinition = faHammer;
@@ -28,49 +27,30 @@ export class CompetencesComponent implements OnInit {
     this.loadSkills();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   public onSubmit(form: NgForm) {
-    this.networkService
-      .post(
-        "/skill/" + form.value.skill + "/" + localStorage.getItem("token"),
-        {}
-      )
-      .subscribe(e => {
-        this.userSkills.push(form.value.skill);
-      });
+    this.networkService.post("skill", form.value).subscribe(e => {
+      this.userSkills.push(form.value.entitled);
+    });
   }
 
   public removeSkill(index: number) {
-    this.networkService
-      .delete(
-        "/skill/" + this.userSkills[index] + "/" + localStorage.getItem("token")
-      )
-      .subscribe(() => {
-        if (this.userSkills.length === 1) {
-          this.userSkills = [];
-        } else {
-          this.userSkills.splice(index, index);
-        }
-      });
+    this.networkService.delete("skill/" + this.userSkills[index]).subscribe(() => {
+      this.userSkills.splice(index, index);
+    });
   }
 
   private loadSkills() {
-    this.networkService.get("/skill").subscribe(e => {
-      for (let i = 0; i < e["data"].length; i++) {
-        this.skills.push(e["data"][i]["properties"]["entitled"]);
-      }
+    this.networkService.get("skill").subscribe(e => {
+      this.skills = e["data"].map(element => element["properties"]["entitled"]);
     });
   }
 
   private loadUserSkills() {
-    this.networkService
-      .get("/skill/" + localStorage.getItem("token"))
-      .subscribe(e => {
-        for (let i = 0; i < e["data"].length; i++) {
-          this.userSkills.push(e["data"][i]["properties"]["entitled"]);
-        }
-      });
+    this.networkService.get("skill/" + localStorage.getItem("type") + "/" + localStorage.getItem("id")).subscribe(e => {
+      this.userSkills = e["data"].map(element => element["properties"]["entitled"]);
+    });
   }
 
   public show() {

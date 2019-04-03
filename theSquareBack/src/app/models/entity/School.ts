@@ -27,13 +27,8 @@ export class School {
   }
 
   private static getAll(req: any, res: any, neo4j: Neo4j) {
-    console.log("Accès aux écoles de la bdd");
     return neo4j.session.run(`MATCH (s:School) RETURN s`).then(retour => {
-      const tmp = [];
-      for (let i = 0; i < retour.records.length; i++) {
-        tmp.push(retour.records[i].get(0));
-      }
-      return res.status(200).json({ data: tmp });
+      return res.status(200).json({ data: retour.records.map(element => element.get(0)) });
     });
   }
 

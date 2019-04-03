@@ -12,7 +12,7 @@
   <form #hobbyForm="ngForm" (ngSubmit)="onSubmit(hobbyForm)" *ngIf="showModify">
     <mat-form-field>
       <mat-label>Ajout d'un hobby ...</mat-label>
-      <mat-select id="hobby" name="hobby" [(ngModel)]="hobby">
+      <mat-select id="entitled" name="entitled" [(ngModel)]="entitled">
         <mat-option value="{{ hobby }}" *ngFor="let hobby of hobbies">
           {{ hobby }}
         </mat-option>

@@ -9,7 +9,7 @@ export class Token {
   public entity: Entity;
   public token: string;
 
-  constructor() {}
+  constructor() { }
 
   public static add(idEntity: number, typeEntity: string, neo4j: Neo4j) {
     return Token.delete(idEntity, typeEntity, neo4j).then(() => {
@@ -24,7 +24,7 @@ export class Token {
               .toString()
           }
         )
-        .then(function(result) {
+        .then(function (result) {
           return result.records[0].get(0).properties.token;
         });
     });

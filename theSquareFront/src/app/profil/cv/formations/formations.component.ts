@@ -15,29 +15,37 @@ import { NgForm } from "@angular/forms";
   styleUrls: ["./formations.component.scss"]
 })
 export class FormationsComponent implements OnInit {
-  @Input() iam: Personne;
+
   public faPlus: IconDefinition = faPlus;
   public faMinus: IconDefinition = faMinus;
   public faHammer: IconDefinition = faHammer;
-  public showModify: boolean = false;
+  public showModify: boolean = true;
   public schools: string[] = [];
+  public formations = [];
 
   constructor(private networkService: NetworkService) {
     this.loadSchools();
+    this.loadFormations();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   private loadSchools() {
-    this.networkService.get("/school").subscribe(school => {
-      for (let i = 0; i < school["data"].length; i++) {
-        this.schools.push(school["data"][i]["properties"]["name"]);
-      }
+    this.networkService.get('school').subscribe(school => {
+      this.schools = school["data"].map(element => element["properties"]["name"]);
     });
   }
 
-  public onDeleteFormation(index: number) {
-    console.log(index);
+  private loadFormations() {
+    this.networkService.get('formation/person/' + localStorage.getItem('id')).subscribe(formations => {
+      this.formations = formations['data'].map(element => element['properties']);
+    })
+  }
+
+  public onDeleteFormation(intitule: string, index: number) {
+    this.networkService.delete('formation/' + intitule).subscribe(() => {
+      this.formations.splice(index, index);
+    });
   }
 
   public show() {
@@ -45,6 +53,8 @@ export class FormationsComponent implements OnInit {
   }
 
   public onSubmit(form: NgForm) {
-    console.log(form.value);
+    this.networkService.post('formation', form.value).subscribe((formation) => {
+      this.formations.push(formation['data']);
+    });
   }
 }

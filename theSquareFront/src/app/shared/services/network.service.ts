@@ -5,17 +5,16 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
   providedIn: "root"
 })
 export class NetworkService {
+
   public url: string = "http://localhost:8080/";
 
   constructor(private httpClient: HttpClient) { }
 
-  private getHeader(): HttpHeaders {
-    if (localStorage.getItem('token')) {
-      return {};
-    }
-    const headers = new HttpHeaders();
-    headers.set('Content-Type', 'application/json');
-    headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'));
+  private getHeader() {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': localStorage.getItem('token')
+    });
     return headers;
   }
 
@@ -24,10 +23,10 @@ export class NetworkService {
   }
 
   public delete(route: string) {
-    return this.httpClient.delete(this.url + route, { }, { headers: this.getHeader() });
+    return this.httpClient.delete(this.url + route, { headers: this.getHeader() });
   }
 
   public get(route: string) {
-    return this.httpClient.get(this.url + route, { }, { headers: this.getHeader() });
+    return this.httpClient.get(this.url + route, { headers: this.getHeader() });
   }
 }

@@ -4,23 +4,16 @@
   </h2>
   <div class="liste" *ngFor="let skill of userSkills; let i = index">
     <p>{{ skill }}</p>
-    <button
-      mat-flat-button
-      color="warn"
-      *ngIf="showModify"
-      (click)="removeSkill(i)"
-    >
+    <button mat-flat-button color="warn" *ngIf="showModify"
+      (click)="removeSkill(i)">
       <fa-icon [icon]="faMinus"></fa-icon>
     </button>
   </div>
-  <form
-    #competenceForm="ngForm"
-    (ngSubmit)="onSubmit(competenceForm)"
-    *ngIf="showModify"
-  >
+  <form #competenceForm="ngForm" (ngSubmit)="onSubmit(competenceForm)"
+    *ngIf="showModify">
     <mat-form-field>
       <mat-label>Ajout d'une compétence ...</mat-label>
-      <mat-select id="skill" name="skill" [(ngModel)]="skill">
+      <mat-select id="entitled" name="entitled" [(ngModel)]="entitled">
         <mat-option value="{{ skill }}" *ngFor="let skill of skills">
           {{ skill }}
         </mat-option>
