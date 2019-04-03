@@ -2,6 +2,7 @@ import { Entity } from "../entity/Entity";
 import { Formation } from "./Formation";
 import { Neo4j } from "../../neo4j";
 import { Express } from "express";
+import { Experience } from "./Experience";
 
 export class Lived {
   public entitled: string;
@@ -14,5 +15,6 @@ export class Lived {
 
   public static mountRoutes(express: Express, neo4j: Neo4j) {
     Formation.mountRoutes(express, neo4j);
+    Experience.mountRoutes(express, neo4j);
   }
 }

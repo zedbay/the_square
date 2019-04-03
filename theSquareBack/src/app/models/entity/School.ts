@@ -5,19 +5,29 @@ import { Token } from "../Token";
 
 export class School {
   public students: Person[];
+  public followers: Person[];
+  public description: string;
 
   public static mountRoutes(express: Express, neo4j: Neo4j) {
     const router = Router();
-    router.post("/school", (req, res) => {
+    router.post("/", (req, res) => {
       return School.create(req, res, neo4j);
     });
-    router.get("/school", (req, res) => {
+    router.get("/", (req, res) => {
       return School.getAll(req, res, neo4j);
     });
-    express.use("/", router);
+    router.get("/follower/:idEntreprise", (req, res) => {
+      return School.getFollowers(req, res, neo4j);
+    });
+    express.use("/school", router);
+  }
+
+  private static getFollowers(req: any, res: any, neo4j: Neo4j) {
+    console.log("Accès aux followers d'une école");
   }
 
   private static getAll(req: any, res: any, neo4j: Neo4j) {
+    console.log("Accès aux écoles de la bdd");
     return neo4j.session.run(`MATCH (s:School) RETURN s`).then(retour => {
       const tmp = [];
       for (let i = 0; i < retour.records.length; i++) {
@@ -28,6 +38,7 @@ export class School {
   }
 
   private static create(req: any, res: any, neo4j: Neo4j) {
+    console.log("Création d'une école");
     neo4j.session
       .run(
         `CREATE (s:School { email: $email, password: $password, description: $description, name: $nom }) RETURN s`,

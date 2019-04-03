@@ -2,10 +2,10 @@ import { Experience } from "../lived/Experience";
 import { Formation } from "../lived/Formation";
 import { Skill } from "../trait/Skill";
 import { Hobby } from "../trait/Hobby";
-import { Professional } from "./Professional";
 import { Neo4j } from "../../neo4j";
 import { Router, Express } from "express";
 import { Token } from "../Token";
+import { Entity } from "./Entity";
 
 export class Person {
   public firstName: string;
@@ -15,18 +15,32 @@ export class Person {
   public hobbies: Hobby[];
   public friends: Person[];
   public friendsRequest: Person[];
-  public follows: Professional[];
+  public follows: Entity[];
   public entitled: string;
 
   public static mountRoutes(express: Express, neo4j: Neo4j) {
     const router = Router();
-    router.post("/Person", (req, res) => {
+    router.post("/", (req, res) => {
       return Person.create(req, res, neo4j);
     });
-    express.use("/", router);
+    router.get("/friends/entity/:idEntity", (req, res) => {
+      return this.getFriends(req, res, neo4j);
+    });
+    router.get("/friendsRequest", (req, res) => {
+      return this.getFriendsRequest(req, res, neo4j);
+    });
+    express.use("/person", router);
+  }
+
+  private static getFriends(req: any, res: any, neo4j: Neo4j) {
+    console.log("Accès a la liste d'amis d'un utilisateur");
+  }
+  private static getFriendsRequest(req: any, res: any, neo4: Neo4j) {
+    console.log("Accès a la liste de requête d'amis d'un utilisateur");
   }
 
   private static create(req: any, res: any, neo4j: Neo4j) {
+    console.log("Création d'un utilisateur");
     neo4j.session
       .run(
         `CREATE (p:Person { email: $email, password: $password, prenom: $prenom, name: $nom }) RETURN p`,

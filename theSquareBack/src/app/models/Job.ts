@@ -15,19 +15,20 @@ export class Job {
 
   public static mountRoutes(express: Express, neo4j: Neo4j) {
     const router: Router = Router();
-    router.post("/Job/Entreprise/:idEntreprise", (req, res) => {
+    router.post("/", (req, res) => {
       return Job.add(req, res, neo4j);
     });
-    router.get("/Job/Entreprise/:idEntreprise", (req, res) => {
+    router.get("/", (req, res) => {
       return Job.get(req, res, neo4j);
     });
-    router.delete("/Job/:idJob", (req, res) => {
+    router.delete("/:idJob", (req, res) => {
       return Job.delete(req, res, neo4j);
     });
-    express.use("/", router);
+    express.use("/job", router);
   }
 
   private static add(req: any, res: any, neo4j: Neo4j) {
+    console.log("Ajout d'un job");
     neo4j.session
       .run(
         `MATCH (e:Entreprise) WHERE ID(e) = $idEntreprise CREATE (j:Job { description: $description, salary: $salary, entitled: $entitled }), (e)-[:OFFER]->(j) RETURN j`,
@@ -56,6 +57,7 @@ export class Job {
   }
 
   private static get(req: any, res: any, neo4j: Neo4j) {
+    console.log("Accès aux job de la bdd");
     neo4j.session
       .run(
         "MATCH (e:Entreprise)-[:OFFER]->(j:Job) WHERE ID(e) = $idEntreprise RETURN j",
@@ -71,6 +73,7 @@ export class Job {
   }
 
   private static delete(req: any, res: any, neo4j: Neo4j) {
+    console.log("Suppresion d'un job");
     neo4j.session
       .run("MATCH (j:Job) WHERE ID(j) = $idJob DETACH DELETE j", {
         idJob: v1.int(req.params.idJob)

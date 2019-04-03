@@ -27,7 +27,6 @@ class App {
       res.json({ message: "pong" });
     });
     this.express.use("/", router);
-
     Lived.mountRoutes(this.express, this.neo4j);
     Entity.mountRoutes(this.express, this.neo4j);
     Activity.mountRoutes(this.express, this.neo4j);

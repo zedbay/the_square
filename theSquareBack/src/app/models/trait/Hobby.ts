@@ -11,22 +11,23 @@ export class Hobby {
 
   public static mountRoutes(express: Express, neo4j: Neo4j) {
     const router: Router = Router();
-    router.post("/Hobby/:entitled/:token", (req, res) => {
+    router.post("/", (req, res) => {
       return Hobby.add(req, res, neo4j);
     });
-    router.get("/Hobby/:token", (req, res) => {
+    router.get("/person/:idPerson", (req, res) => {
       return Hobby.get(req, res, neo4j);
     });
-    router.get("/Hobby", (req, res) => {
+    router.get("/", (req, res) => {
       return Hobby.getHobbies(req, res, neo4j);
     });
-    router.delete("/Hobby/:entitled/:token", (req, res) => {
+    router.delete("/:entitled", (req, res) => {
       return Hobby.delete(req, res, neo4j);
     });
-    express.use("/", router);
+    express.use("/hobby", router);
   }
 
   private static add(req: any, res: any, neo4j: Neo4j) {
+    console.log("Ajout d'un hobby pour un utilisateur");
     return Token.get(req.params.token, neo4j).then(resultat => {
       return neo4j.session
         .run(
@@ -43,6 +44,7 @@ export class Hobby {
   }
 
   private static get(req: any, res: any, neo4j: Neo4j) {
+    console.log("Accès aux hobbies d'un utilisateur");
     return Token.get(req.params.token, neo4j).then(resultat => {
       return neo4j.session
         .run(
@@ -62,16 +64,14 @@ export class Hobby {
   }
 
   private static getHobbies(req: any, res: any, neo4j: Neo4j) {
-    return neo4j.session.run(`MATCH (h:Hobby) RETURN h`).then(retour => {
-      const tmp = [];
-      for (let i = 0; i < retour.records.length; i++) {
-        tmp.push(retour.records[i].get(0));
-      }
-      return res.status(200).json({ data: tmp });
+    console.log("Accès aux hobbies");
+    neo4j.session.run(`MATCH (h:Hobby) RETURN h`).then(retour => {
+      return res.status(200).json({ data: retour.records.map(element => element.get(0)) });
     });
   }
 
   private static delete(req: any, res: any, neo4j: Neo4j) {
+    console.log("Supression d'un hobby pour un utilisateur");
     return Token.get(req.params.token, neo4j).then(resultat => {
       return neo4j.session
         .run(

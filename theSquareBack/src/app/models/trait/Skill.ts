@@ -11,22 +11,23 @@ export class Skill {
 
   public static mountRoutes(express: Express, neo4j: Neo4j) {
     const router: Router = Router();
-    router.post("/skill/:entitled/:token", (req, res) => {
+    router.post("/", (req, res) => {
       return Skill.add(req, res, neo4j);
     });
-    router.get("/skill/:token", (req, res) => {
+    router.get("/entity/:idEntity", (req, res) => {
       return Skill.get(req, res, neo4j);
     });
-    router.get("/skill", (req, res) => {
+    router.get("/", (req, res) => {
       return Skill.getSkills(req, res, neo4j);
     });
-    router.delete("/skill/:entitled/:token", (req, res) => {
+    router.delete("/:entitled/entity/:idEntity", (req, res) => {
       return Skill.delete(req, res, neo4j);
     });
-    express.use("/", router);
+    express.use("/skill", router);
   }
 
   private static add(req: any, res: any, neo4j: Neo4j) {
+    console.log("Ajout d'une compétence pour une entité");
     return Token.get(req.params.token, neo4j).then(resultat => {
       return neo4j.session
         .run(
@@ -45,6 +46,7 @@ export class Skill {
   }
 
   private static getSkills(req: any, res: any, neo4j: Neo4j) {
+    console.log("Accès aux compétences");
     return neo4j.session.run(`MATCH (s:Skill) RETURN s`).then(retour => {
       const tmp = [];
       for (let i = 0; i < retour.records.length; i++) {
@@ -55,7 +57,8 @@ export class Skill {
   }
 
   private static get(req: any, res: any, neo4j: Neo4j) {
-    return Token.get(req.params.token, neo4j).then(resultat => {
+    console.log("Accès aux compétences d'une entité");
+    return Token.get(req.token, neo4j).then(resultat => {
       return neo4j.session
         .run(
           `MATCH (e:${
@@ -76,6 +79,7 @@ export class Skill {
   }
 
   private static delete(req: any, res: any, neo4j: Neo4j) {
+    console.log("Suppresion d'une compétence d'une entité");
     return Token.get(req.params.token, neo4j).then(resultat => {
       neo4j.session
         .run(
