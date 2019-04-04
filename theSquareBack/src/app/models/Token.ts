@@ -32,9 +32,7 @@ export class Token {
 
   public static get(token: string, neo4j: Neo4j) {
     return neo4j.session
-      .run("MATCH (e)-[:USE]->(t:Token { token: $token }) RETURN e", {
-        token: token
-      })
+      .run(`MATCH (e)-[:USE]->(t:Token { token: "${token}" }) RETURN e`)
       .then(result => {
         return {
           id: result.records[0].get(0).identity,
@@ -45,12 +43,7 @@ export class Token {
 
   private static delete(idEntity: any, typeEntity: string, neo4j: Neo4j) {
     return neo4j.session
-      .run(
-        `MATCH (e:${typeEntity}) WHERE ID(e) = $idEntity MATCH (e)-[:USE]->(t:Token) DETACH DELETE t`,
-        {
-          idEntity: idEntity
-        }
-      )
+      .run(`MATCH (e:${typeEntity}) WHERE ID(e) = ${idEntity} MATCH (e)-[:USE]->(t:Token) DETACH DELETE t`)
       .then(() => {
         return;
       });
