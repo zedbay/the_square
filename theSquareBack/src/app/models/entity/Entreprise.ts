@@ -3,6 +3,7 @@ import { Job } from "../Job";
 import { Person } from "./Person";
 import { Token } from "../Token";
 import { Neo4j } from "../../neo4j";
+import { v1 } from "neo4j-driver";
 
 export class Entreprise {
   public jobs: Job[];
@@ -23,41 +24,56 @@ export class Entreprise {
     });
     router.get("/employe/:idEntreprise", (req, res) => {
       return Entreprise.getEmployes(req, res, neo4j);
-    })
+    });
+    router.get("/jobs/:idEntreprise", (req, res) => {
+      return Entreprise.getJobs(req, res, neo4j);
+    });
     express.use("/entreprise", router);
   }
 
-  private static getFollowers(req: any, res: any, neo4j: Neo4j) {
-    console.log("Accès aux followers d'une entreprise");
-  }
-  private static getEmployes(req: any, res: any, neo4j: Neo4j) {
-    console.log("Accès ux employé d'une entreprise");
-  }
-
-  private static getAll(req: any, res: any, neo4j: Neo4j) {
-    console.log("Accès aux entreprises de la bdd");
-  }
-
-  private static create(req: any, res: any, neo4j: Neo4j) {
-    console.log("Création d'une entreprise");
+  //TODO: a tester
+  private static getJobs(req: any, res: any, neo4j: Neo4j) {
     neo4j.session
-      .run(
-        `CREATE (e:Entreprise { email: $email, password: $password, description: $description, name: $nom }) RETURN e`,
-        {
-          email: req.body["email"],
-          password: req.body["password"],
-          description: req.body["description"],
-          nom: req.body["nom"]
-        }
-      )
-      .then(school => {
-        neo4j.session.close();
-        neo4j.driver.close();
-        Token.add(
-          school.records[0].get(0).identity,
-          school.records[0].get(0).labels[0],
-          neo4j
-        ).then(token => {
+      .run(`MATCH (e:Entreprise)-[:OFFER]->(j:Job) WHERE ID(e) = ${v1.int(req.params.idEntreprise)} RETURN j`)
+      .then(jobs => {
+        return res.status(200).json({ data: jobs.records.map(element => element.get(0)) });
+      });
+  }
+
+  //TODO: a tester
+  private static getFollowers(req: any, res: any, neo4j: Neo4j) {
+    neo4j.session
+      .run(`MATCH (p:Person)-[:FOLLOW]->(e:Entreprise) WHERE ID(e) = ${v1.int(req.params.idEntreprise)} RETURN p`)
+      .then(followers => {
+        return res.status(200).json({ data: followers.records.map(element => element.get(0)) });
+      });
+  }
+
+  //TODO: a tester
+  private static getEmployes(req: any, res: any, neo4j: Neo4j) {
+    neo4j.session
+      .run(`MATCH (p:Person)-[:WORKIN]-(e:Entreprise) WHERE ID(e) = ${v1.int(req.params.idEntreprise)} RETURN p`)
+      .then(employe => {
+        return res.status(200).json({ data: employe.records.map(element => element.get(0)) });
+      });
+  }
+
+  //TODO: a tester
+  private static getAll(req: any, res: any, neo4j: Neo4j) {
+    neo4j.session
+      .run(`MATCH (e:Entreprise) RETURN e`)
+      .then(entreprises => {
+        return res.status(200).json({ data: entreprises.records.map(element => element.get(0)) });
+      });
+  }
+
+  //TODO: a tester
+  private static create(req: any, res: any, neo4j: Neo4j) {
+    neo4j.session
+      .run(`CREATE (e:Entreprise { email: "${req.body.email}", password: "${req.body.password}", 
+        description: "${req.body.description}", name: "${req.body.name}" }) RETURN e`)
+      .then(entreprise => {
+        Token.add(entreprise.records[0].get(0).identity, entreprise.records[0].get(0).labels[0], neo4j).then(token => {
           return res.status(200).json({ token: token });
         });
       });
