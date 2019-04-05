@@ -19,10 +19,10 @@ export class Entreprise {
     router.get("/:idEntreprise", (req, res) => {
       return Entreprise.getAll(req, res, neo4j);
     });
-    router.get("/follower/:idEntreprise", (req, res) => {
+    router.get("/followers/:idEntreprise", (req, res) => {
       return Entreprise.getFollowers(req, res, neo4j);
     });
-    router.get("/employe/:idEntreprise", (req, res) => {
+    router.get("/employes /:idEntreprise", (req, res) => {
       return Entreprise.getEmployes(req, res, neo4j);
     });
     router.get("/jobs/:idEntreprise", (req, res) => {
@@ -31,7 +31,6 @@ export class Entreprise {
     express.use("/entreprise", router);
   }
 
-  //TODO: a tester
   private static getJobs(req: any, res: any, neo4j: Neo4j) {
     neo4j.session
       .run(`MATCH (e:Entreprise)-[:OFFER]->(j:Job) WHERE ID(e) = ${v1.int(req.params.idEntreprise)} RETURN j`)
@@ -40,7 +39,6 @@ export class Entreprise {
       });
   }
 
-  //TODO: a tester
   private static getFollowers(req: any, res: any, neo4j: Neo4j) {
     neo4j.session
       .run(`MATCH (p:Person)-[:FOLLOW]->(e:Entreprise) WHERE ID(e) = ${v1.int(req.params.idEntreprise)} RETURN p`)
@@ -49,7 +47,6 @@ export class Entreprise {
       });
   }
 
-  //TODO: a tester
   private static getEmployes(req: any, res: any, neo4j: Neo4j) {
     neo4j.session
       .run(`MATCH (p:Person)-[:WORKIN]-(e:Entreprise) WHERE ID(e) = ${v1.int(req.params.idEntreprise)} RETURN p`)
@@ -58,7 +55,6 @@ export class Entreprise {
       });
   }
 
-  //TODO: a tester
   private static getAll(req: any, res: any, neo4j: Neo4j) {
     neo4j.session
       .run(`MATCH (e:Entreprise) RETURN e`)
@@ -67,7 +63,6 @@ export class Entreprise {
       });
   }
 
-  //TODO: a tester
   private static create(req: any, res: any, neo4j: Neo4j) {
     neo4j.session
       .run(`CREATE (e:Entreprise { email: "${req.body.email}", password: "${req.body.password}", 

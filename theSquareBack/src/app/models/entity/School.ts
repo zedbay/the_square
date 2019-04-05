@@ -26,7 +26,6 @@ export class School {
     express.use("/school", router);
   }
 
-  //TODO: a tester
   private static getFollowers(req: any, res: any, neo4j: Neo4j) {
     neo4j.session
       .run(`MATCH (p:Person)-[:FOLLOW]->(s:School) WHERE ID(s) = ${v1.int(req.params.idSchool)} RETURN p`)
@@ -35,7 +34,6 @@ export class School {
       });
   }
 
-  //TODO: a tester
   private static getStudents(req: any, res: any, neo4j: Neo4j) {
     neo4j.session
     .run(`MATCH (p:Person)-[:STUDYIN]->(s:School) WHERE ID(s) = ${v1.int(req.params.idSchool)} RETURN p`)
@@ -50,7 +48,6 @@ export class School {
     });
   }
 
-  //TODO: a tester
   private static create(req: any, res: any, neo4j: Neo4j) {
     neo4j.session
       .run(`CREATE (s:School { email: "${req.body.email}", password: "${req.body.password}", 

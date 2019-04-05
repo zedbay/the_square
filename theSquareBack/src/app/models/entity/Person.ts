@@ -46,10 +46,12 @@ export class Person {
     router.get("/follow", (req, res) => {
       return Person.getFollow(req, res, neo4j);
     });
+    router.delete("/follow/:idEntity", (req, res) => {
+      return Person.deleteFollow(req, res, neo4j);
+    });
     express.use("/person", router);
   }
 
-  //TODO: a teser
   private static getFollow(req: any, res: any, neo4j: Neo4j) {
     return Token.get(req.headers['authorization'], neo4j).then(resultat => {
       neo4j.session
@@ -60,7 +62,17 @@ export class Person {
     });
   }
 
-  //TODO: a tester
+  private static deleteFollow(req: any, res: any, neo4j: Neo4j) {
+    return Token.get(req.headers['authorization'], neo4j).then(resultat => {
+      neo4j.session
+        .run(`MATCH (p:Person)-[f:FOLLOW]->(e) WHERE ID(p) = ${resultat.id} AND ID(e) = ${v1.int(req.params.idEntity)}
+          DETACH DELETE f`)
+        .then(() => {
+          return res.status(200).json({});
+        })
+    });
+  }
+
   private static follow(req: any, res: any, neo4j: Neo4j) {
     return Token.get(req.headers['authorization'], neo4j).then(resultat => {
       neo4j.session
@@ -83,7 +95,6 @@ export class Person {
     });
   }
 
-  //TODO: a tester
   private static responseFriendRequest(req: any, res: any, neo4j: Neo4j) {
     if (!req.body.response) {
       return Person.deleteFriendRequest(req, res, neo4j);

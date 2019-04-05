@@ -3,6 +3,7 @@ import { Skill } from "./trait/Skill";
 import { Router, Express } from "express";
 import { Neo4j } from "../neo4j";
 import { v1 } from "neo4j-driver";
+import { Token } from "./Token";
 
 export class Job {
   public entreprise: Entreprise;
@@ -11,7 +12,7 @@ export class Job {
   public entitled: string;
   public skills: Skill[];
 
-  constructor() {}
+  constructor() { }
 
   public static mountRoutes(express: Express, neo4j: Neo4j) {
     const router: Router = Router();
@@ -28,60 +29,43 @@ export class Job {
   }
 
   private static add(req: any, res: any, neo4j: Neo4j) {
-    console.log("Ajout d'un job");
-    neo4j.session
-      .run(
-        `MATCH (e:Entreprise) WHERE ID(e) = $idEntreprise CREATE (j:Job { description: $description, salary: $salary, entitled: $entitled }), (e)-[:OFFER]->(j) RETURN j`,
-        {
-          description: req.body.description,
-          salary: v1.int(req.body.salary),
-          entitled: req.body.entitled,
-          idEntreprise: v1.int(req.params.idEntreprise)
-        }
-      )
-      .then(result => {
-        neo4j.session
-          .run(
-            `WITH $skills AS skills UNWIND skills AS skill MATCH (s:Skill), (j:Job) WHERE ID(s) = skill AND ID(j) = $idJob CREATE (j)-[:HAVENEED]->(s)`,
-            {
-              skills: req.body.skills.map(element => v1.int(element)),
-              idJob: result.records[0].get(0).identity
-            }
-          )
-          .then(() => {
-            neo4j.session.close();
-            neo4j.driver.close();
-            return res.status(204).json({});
-          });
-      });
+    return Token.get(req.headers["authorization"], neo4j).then(entity => {
+      neo4j.session
+        .run(`MATCH (e:Entreprise) WHERE ID(e) = ${entity.id} 
+          CREATE (j:Job { description: "${req.body.description}", salary: "${req.body.salary}", 
+          entitled: "${req.body.entitled}" }), (e)-[:OFFER]->(j) RETURN j`)
+        .then(result => {
+          neo4j.session
+            .run(`WITH $skills AS skills UNWIND skills AS skill MATCH (s:Skill), (j:Job) 
+            WHERE ID(s) = skill AND ID(j) = $idJob CREATE (j)-[:HAVENEED]->(s)`,
+              {
+                skills: req.body.skills.map(element => v1.int(element)),
+                idJob: result.records[0].get(0).identity
+              }
+            )
+            .then(() => {
+              return res.status(204).json({});
+            });
+        });
+    });
   }
 
   private static get(req: any, res: any, neo4j: Neo4j) {
-    console.log("Accès aux job de la bdd");
     neo4j.session
-      .run(
-        "MATCH (e:Entreprise)-[:OFFER]->(j:Job) WHERE ID(e) = $idEntreprise RETURN j",
-        {
-          idEntreprise: v1.int(req.params.idEntreprise)
-        }
-      )
-      .then(result => {
-        neo4j.session.close();
-        neo4j.driver.close();
-        return res.status(200).json({ data: result.records });
+      .run("MATCH (j:Job) RETURN j")
+      .then(jobs => {
+        return res.status(200).json({ data: jobs.records.map(element => element.get(0)) });
       });
   }
 
   private static delete(req: any, res: any, neo4j: Neo4j) {
-    console.log("Suppresion d'un job");
-    neo4j.session
-      .run("MATCH (j:Job) WHERE ID(j) = $idJob DETACH DELETE j", {
-        idJob: v1.int(req.params.idJob)
-      })
-      .then(() => {
-        neo4j.session.close();
-        neo4j.driver.close();
-        return res.status(200).json({});
-      });
+    return Token.get(req.headers["authorization"], neo4j).then(entity => {
+      neo4j.session
+        .run(`MATCH (e:Entreprise)-[:OFFER]->(j:Job) WHERE ID(e) = ${entity.id} 
+          AND ID(j) = ${v1.int(req.params.idJob)} DETACH DELETE j`)
+        .then(() => {
+          return res.status(200).json({});
+        });
+    });
   }
 }

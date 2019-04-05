@@ -1,7 +1,5 @@
 import { Entity } from "./entity/Entity";
 import { Neo4j } from "../neo4j";
-import { Router, Express } from "express";
-import { v1 } from "neo4j-driver";
 import * as crypto from "crypto-js";
 
 export class Token {
@@ -15,16 +13,15 @@ export class Token {
     return Token.delete(idEntity, typeEntity, neo4j).then(() => {
       return neo4j.session
         .run(
-          `MATCH (e:${typeEntity}) WHERE ID(e) = $idEntity CREATE (t:Token { date: $date, token: $token }), (e)-[:USE]->(t) RETURN t`,
+          `MATCH (e:${typeEntity}) WHERE ID(e) = ${idEntity} CREATE (t:Token { date: $date, token: $token }), (e)-[:USE]->(t) RETURN t`,
           {
-            idEntity: idEntity,
             date: new Date(Date.now() + 24 * 60 * 60 * 1000).toString(),
             token: crypto
               .SHA256(Date.now().toString() + idEntity.toString())
               .toString()
           }
         )
-        .then(function (result) {
+        .then(result => {
           return result.records[0].get(0).properties.token;
         });
     });
