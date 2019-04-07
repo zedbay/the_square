@@ -1,9 +1,10 @@
 <div id="whoami-container">
   <div class="photo">
-    <img src="../../../assets/{{ iam.photo }}" alt="{{ iam.nom }}">
+    <img src="../../../assets/{{ iam.properties.photo }}"
+      alt="iam?.properties.name">
   </div>
   <div class="description">
-    <h3>{{ iam.nom }}</h3>
-    <p>{{ iam.intitule }}</p>
+    <h3>{{ iam?.properties.firstName }} {{ iam?.properties.name }}</h3>
+    <p>{{ iam?.properties.entitled }}</p>
   </div>
 </div>

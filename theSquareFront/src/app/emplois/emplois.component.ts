@@ -4,7 +4,6 @@ import { Emploi } from '../shared/models/emploi';
 import { Competence } from '../shared/models/competence';
 import { Domaine } from '../shared/models/domaine';
 import { faSearch, IconDefinition } from '@fortawesome/free-solid-svg-icons';
-
 import { RandomModelsService } from '../shared/services/random-models.service';
 
 @Component({

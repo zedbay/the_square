@@ -1,0 +1,66 @@
+<div id="experiences" class="element">
+
+  <h2 class="the-square-title">
+    Experiences :<fa-icon [icon]="faHammer" (click)="show()"></fa-icon>
+  </h2>
+
+  <div class="description-formation"
+    *ngFor="let experience of experiences; let i = index">
+    <img src="../../../assets/entreprise.jpg" alt="nom" />
+    <div class="details">
+      <h3>
+        {{ experience.entitled }}
+        <span class="date">
+          {{ experience.startDate | date: "longDate" }} -
+          {{ experience.endDate | date: "longDate" }} </span>
+      </h3>
+      <p>{{ experience.description }} </p>
+      <a (click)="onDeleteExperience(experience.entitled, i)"
+        *ngIf="showModify">Supprimer</a>
+    </div>
+  </div>
+
+  <div class="form-container" *ngIf="showModify">
+    <form #formationForm="ngForm" (ngSubmit)="onSubmit(formationForm)">
+      <mat-form-field class="example-full-width intitule">
+        <input matInput placeholder="Intitulé" type="text" id="entitled"
+          name="entitled" [(ngModel)]="entitled" />
+      </mat-form-field>
+
+      <mat-form-field class="datePicker">
+        <input matInput [matDatepicker]="pickerStart" placeholder="Début ..."
+          id="startDate" name="startDate" [(ngModel)]="startDate" />
+        <mat-datepicker-toggle matSuffix [for]="pickerStart">
+        </mat-datepicker-toggle>
+        <mat-datepicker #pickerStart></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="datePicker">
+        <input matInput [matDatepicker]="pickerEnd" placeholder="Fin ..."
+          id="endDate" name="endDate" [(ngModel)]="endDate" />
+        <mat-datepicker-toggle matSuffix [for]="pickerEnd">
+        </mat-datepicker-toggle>
+        <mat-datepicker #pickerEnd></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="entreprise">
+        <mat-label>Entreprise ...</mat-label>
+        <mat-select id="entreprise" name="entreprise" [(ngModel)]="entreprise">
+          <mat-option value="{{ entreprise }}"
+            *ngFor="let entreprise of entreprises">
+            {{ entreprise }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width description">
+        <input matInput placeholder="Description" type="text" id="description"
+          name="description" [(ngModel)]="description" />
+      </mat-form-field>
+
+      <button mat-flat-button color="primary" type="submit">
+        <fa-icon [icon]="faPlus"></fa-icon>
+      </button>
+    </form>
+  </div>
+</div>

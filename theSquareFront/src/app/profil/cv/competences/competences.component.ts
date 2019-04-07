@@ -37,7 +37,7 @@ export class CompetencesComponent implements OnInit {
 
   public removeSkill(index: number) {
     this.networkService.delete("skill/" + this.userSkills[index]).subscribe(() => {
-      this.userSkills.splice(index, index);
+      index === 0 ? this.userSkills.shift() : this.userSkills.splice(index, index);
     });
   }
 

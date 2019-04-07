@@ -30,7 +30,7 @@ export class Skill {
   private static delete(req: any, res: any, neo4j: Neo4j) {
     return Token.get(req.headers["authorization"], neo4j).then(resultat => {
       neo4j.session
-        .run(`MATCH (e:${resultat.type})-[r:HAVENEED]->(s:Skill { entitled: "${req.params.entitled}" }) WHERE ID(e) = ${resultat.id} DETACH DELETE r`)
+        .run(`MATCH (e:${resultat.type})-[r:MASTERY]->(s:Skill { entitled: "${req.params.entitled}" }) WHERE ID(e) = ${resultat.id} DETACH DELETE r`)
         .then(() => {
           return res.status(200).json({});
         });
@@ -40,7 +40,7 @@ export class Skill {
   private static add(req: any, res: any, neo4j: Neo4j) {
     return Token.get(req.headers["authorization"], neo4j).then(resultat => {
       neo4j.session
-        .run(`MATCH (e:${resultat.type}),(s:Skill { entitled: "${req.body.entitled}" }) WHERE ID(e) = ${resultat.id} CREATE (e)-[:HAVENEED]->(s)`)
+        .run(`MATCH (e:${resultat.type}),(s:Skill { entitled: "${req.body.entitled}" }) WHERE ID(e) = ${resultat.id} CREATE (e)-[:MASTERY]->(s)`)
         .then(() => {
           return res.status(204).json({});
         });
@@ -57,7 +57,7 @@ export class Skill {
 
   private static get(req: any, res: any, neo4j: Neo4j) {
     neo4j.session
-      .run(`MATCH (e:${req.params.typeEntity})-[:HAVENEED]->(s:Skill) WHERE ID(e) = ${v1.int(req.params.idEntity)} RETURN s`)
+      .run(`MATCH (e:${req.params.typeEntity})-[:MASTERY]->(s:Skill) WHERE ID(e) = ${v1.int(req.params.idEntity)} RETURN s`)
       .then(retour => {
         return res.status(200).json({ data: retour.records.map(element => element.get(0)) });
       });

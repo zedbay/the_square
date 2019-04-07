@@ -9,7 +9,8 @@ import {
   MatFormFieldModule,
   MatSnackBarModule,
   MatSelectModule,
-  MatTableModule
+  MatTableModule,
+  MatCheckboxModule
 } from "@angular/material";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { FormsModule } from "@angular/forms";
@@ -35,6 +36,9 @@ import { FormationsComponent } from "./profil/cv/formations/formations.component
 import { CompetencesComponent } from "./profil/cv/competences/competences.component";
 import { HobbiesComponent } from "./profil/cv/hobbies/hobbies.component";
 import { PresentationComponent } from "./profil/cv/presentation/presentation.component";
+import { ExperiencesComponent } from './profil/cv/experiences/experiences.component';
+import { RechercheComponent } from './recherche/recherche.component';
+import { FriendSuggestionComponent } from './shared/components/friend-suggestion/friend-suggestion.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +60,10 @@ import { PresentationComponent } from "./profil/cv/presentation/presentation.com
     FormationsComponent,
     CompetencesComponent,
     HobbiesComponent,
-    PresentationComponent
+    PresentationComponent,
+    ExperiencesComponent,
+    RechercheComponent,
+    FriendSuggestionComponent
   ],
   imports: [
     BrowserModule,
@@ -72,9 +79,10 @@ import { PresentationComponent } from "./profil/cv/presentation/presentation.com
     FormsModule,
     HttpClientModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatCheckboxModule
   ],
   providers: [MatDatepickerModule],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

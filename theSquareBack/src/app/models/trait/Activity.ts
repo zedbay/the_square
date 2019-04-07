@@ -10,7 +10,7 @@ export class Activity {
     router.post("/", (req, res) => {
       return Activity.add(req, res, neo4j);
     });
-    router.get("/entity/:idEntity", (req, res) => {
+    router.get("/:typeEntity/:idEntity", (req, res) => {
       return Activity.get(req, res, neo4j);
     });
     router.get("/", (req, res) => {
@@ -27,7 +27,7 @@ export class Activity {
     neo4j.session
       .run(
         `MATCH (e:${
-          req.params.typeEntity
+        req.params.typeEntity
         }),(a:Activity) WHERE ID(e) = $idEntity AND ID(a) = $idActivity CREATE (e)-[:INACTIVITY]->(a)`,
         {
           idEntity: v1.int(req.params.idEntity),
@@ -35,8 +35,6 @@ export class Activity {
         }
       )
       .then(() => {
-        neo4j.session.close();
-        neo4j.driver.close();
         return res.status(204).json({});
       });
   }
@@ -44,29 +42,15 @@ export class Activity {
   private static getActivitys(req: any, res: any, neo4j: Neo4j) {
     console.log("Accès aux activités");
     neo4j.session.run(`MATCH (a:Activity) RETURN a`).then(retour => {
-      neo4j.session.close();
-      neo4j.driver.close();
       return res.status(200).json({ data: retour.records });
     });
   }
 
   private static get(req: any, res: any, neo4j: Neo4j) {
-    console.log("Accès aux activité d'une entité");
     neo4j.session
-      .run(
-        `MATCH (e:${
-          req.params.typeEntity
-        })-[:INACTIVITY]->(a:Activity) WHERE ID(e) = $idEntity RETURN a`,
-        {
-          idEntity: v1.int(req.params.idEntity)
-        }
-      )
-      .then(retour => {
-        neo4j.session.close();
-        neo4j.driver.close();
-        return res
-          .status(200)
-          .json({ success: true, resultat: retour.records });
+      .run(`MATCH (e:${req.params.typeEntity})-[:INACTIVITY]->(a:Activity) WHERE ID(e) = ${v1.int(req.params.idEntity)} RETURN a`)
+      .then(activity => {
+        return res.status(200).json({ data: activity.records[0].get(0) });
       });
   }
 
@@ -75,7 +59,7 @@ export class Activity {
     neo4j.session
       .run(
         `MATCH (e:${
-          req.params.typeEntity
+        req.params.typeEntity
         })-[r:INACTIVITY]->(a:Activity) WHERE ID(e) = $idEntity AND ID(a) = $idActivity DELETE r`,
         {
           idEntity: v1.int(req.params.idEntity),

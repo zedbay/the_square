@@ -7,7 +7,6 @@ import { Router, Express } from "express";
 import { Token } from "../Token";
 import { Entity } from "./Entity";
 import { v1 } from 'neo4j-driver';
-import bodyParser = require("body-parser");
 
 export class Person {
   public firstName: string;
@@ -31,12 +30,15 @@ export class Person {
     router.get("/friendsRequest", (req, res) => {
       return Person.getFriendsRequest(req, res, neo4j);
     });
+    router.get('/inCommon/:idPerson', (req, res) => {
+      return Person.getFriendsInCommon(req, res, neo4j);
+    });
+    router.get('/friendSuggestion', (req, res) => {
+      return Person.getFriendSuggestion(req, res, neo4j);
+    })
     router.post("/friendsRequest", (req, res) => {
       return Person.addFriendsRequest(req, res, neo4j);
     });
-    router.delete("/friendRequest/:idRequest", (req, res) => {
-      return Person.deleteFriendRequest(req, res, neo4j);
-    })
     router.post("/responseFriendRequest", (req, res) => {
       return Person.responseFriendRequest(req, res, neo4j);
     });
@@ -50,6 +52,33 @@ export class Person {
       return Person.deleteFollow(req, res, neo4j);
     });
     express.use("/person", router);
+  }
+
+  private static getFriendSuggestion(req: any, res: any, neo4j: Neo4j) {
+    return Token.get(req.headers['authorization'], neo4j).then(user => {
+      neo4j.session
+        .run(`MATCH (p:Person)-[:FRIEND]-(p1:Person)-[:FRIEND]-(p2:Person) 
+          WHERE ID(p) = ${user.id} AND NOT (p)-[:FRIEND]-(p2) 
+          RETURN DISTINCT p2, count(p2) ORDER BY count(p2) DESC LIMIT 5`)
+        .then(users => {
+          return res.status(200).json({
+            users: users.records.map(element => element.get(0)),
+            commun: users.records.map(element => element.get(1))
+          });
+        });
+    });
+  }
+
+  private static getFriendsInCommon(req: any, res: any, neo4j: Neo4j) {
+    return Token.get(req.headers['authorization'], neo4j).then(user => {
+      neo4j.session
+        .run(`MATCH (p:Person)-[:FRIEND]-(p1:Person)-[:FRIEND]-(p2:Person) WHERE ID(p) = ${user.id} AND ID(p2) = ${req.params.idPerson} RETURN p1`)
+        .then(friendsInCommon => {
+          return res.status(200).json({
+            data: friendsInCommon.records.map(element => element.get(0))
+          });
+        });
+    })
   }
 
   private static getFollow(req: any, res: any, neo4j: Neo4j) {
@@ -86,26 +115,27 @@ export class Person {
 
   private static deleteFriendRequest(req: any, res: any, neo4j: Neo4j) {
     return Token.get(req.headers['authorization'], neo4j).then(resultat => {
-      neo4j.session
-        .run(`MATCH (p:Person), (p)-[r:FRIENDREQUEST]-(:Person) WHERE ID(p) = ${resultat.id} AND ID(r) = ${req.params.idRequest}
-          DETACH DELETE r`)
-        .then(() => {
-          return res.status(200).json({});
-        });
+
     });
   }
 
   private static responseFriendRequest(req: any, res: any, neo4j: Neo4j) {
-    if (!req.body.response) {
-      return Person.deleteFriendRequest(req, res, neo4j);
-    }
     return Token.get(req.headers['authorization'], neo4j).then(resultat => {
-      neo4j.session
-        .run(`MATCH (p1:Person)-[r:FRIENDREQUEST]->(p2:Person) WHERE id(r) = ${v1.int(req.body.idRequest)}
-          CREATE (p1)-[:FRIEND]->(p2) DETACH DELETE r`)
-        .then(() => {
-          return res.status(200).json({});
-        })
+      if (!req.body.response) {
+        neo4j.session
+          .run(`MATCH (p1:Person)-[r:FRIENDREQUEST]->(p2:Person) WHERE ID(p1) = ${v1.int(req.body.idPerson)} AND ID(p2) = ${resultat.id}
+          DETACH DELETE r`)
+          .then(() => {
+            return res.status(200).json({});
+          });
+      } else {
+        neo4j.session
+          .run(`MATCH (p1:Person)-[r:FRIENDREQUEST]->(p2:Person) WHERE ID(p1) = ${v1.int(req.body.idPerson)} AND ID(p2) = ${resultat.id}
+            CREATE (p1)-[:FRIEND]->(p2) DETACH DELETE r`)
+          .then(() => {
+            return res.status(200).json({});
+          })
+      }
     });
   }
 

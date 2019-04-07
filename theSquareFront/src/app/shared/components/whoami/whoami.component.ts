@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Personne } from '../../../shared/models/personne';
 import { RandomModelsService } from '../../services/random-models.service';
+import { NetworkService } from '../../services/network.service';
 
 @Component({
   selector: 'app-whoami',
@@ -9,12 +9,22 @@ import { RandomModelsService } from '../../services/random-models.service';
 })
 export class WhoamiComponent implements OnInit {
 
-  public iam: Personne;
+  public iam = {
+    properties: {
+      name: "",
+      firstName: "",
+      entitled: ""
+    }
+  };
 
-  constructor(private randomModels: RandomModelsService) { }
+  constructor(private randomModels: RandomModelsService, private networkService: NetworkService) {
+    this.networkService.get('entity').subscribe(iam => {
+      this.iam = iam['data'];
+    });
+  }
 
   ngOnInit() {
-    this.iam = this.randomModels.getIam();
+
   }
 
 }

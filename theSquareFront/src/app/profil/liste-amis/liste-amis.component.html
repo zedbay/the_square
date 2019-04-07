@@ -1,24 +1,28 @@
 <div id="amis">
   <div id="requete" *ngIf="someRequest">
     <h2>Ces personnes souhaite rejoindre votre réseau :</h2>
-    <div class="card" *ngFor="let people of requeteAmis">
-      <img src="../../../assets/{{ people.photo }}" alt="">
+    <div class="card" *ngFor="let request of friendsRequest; let i = index ">
+      <img src="../../../assets/{{ request.properties.photo }}"
+        alt="{{ request.properties.name }}">
       <div class="card-description">
-        <h3>{{ people.nom }}</h3>
-        <p>{{ people.intitule }}</p>
+        <h3>{{ request.properties.firstName }} {{ request.properties.name }}
+        </h3>
+        <p>{{ request.properties.entitled }}</p>
       </div>
-      <fa-icon [icon]="faCheck" id="agree" (click)="onAcceptRequest(people)">
+      <fa-icon [icon]="faCheck" id="agree"
+        (click)="onAcceptRequest(request.identity.low, request, i)">
       </fa-icon>
-      <fa-icon [icon]="faTimes" id="nop" (click)="onRejectRequest(people)">
+      <fa-icon [icon]="faTimes" id="nop"
+        (click)="onRejectRequest(request.identity.low, request, i)">
       </fa-icon>
     </div>
   </div>
   <h2>Relations</h2>
-  <div class="card" *ngFor="let ami of amis">
-    <img src="../../../assets/{{ ami.photo }}" alt="">
+  <div class="card" *ngFor="let friend of friends">
+    <img src="../../../assets/{{ friend.properties.photo }}" alt="">
     <div class="card-description">
-      <h3>{{ ami.nom }}</h3>
-      <p>{{ ami.intitule }}</p>
+      <h3>{{ friend.properties.firstName }} {{ friend.properties.name }}</h3>
+      <p>{{ friend.properties.entitled }}</p>
     </div>
     <button mat-raised-button>Consulter</button>
   </div>

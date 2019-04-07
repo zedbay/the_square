@@ -1,0 +1,16 @@
+<div class="suggestions-container element">
+  <h2 class="the-square-title">Connaissez vous ?</h2>
+  <div class="card"
+    *ngFor="let suggestion of friendSuggestions.users; let i = index">
+    <img src="../../../assets/{{ suggestion.properties.photo }}"
+      alt="{{ suggestion.properties.name }}">
+    <div class="card-description">
+      <h3>{{ suggestion.properties.firstName }}
+        {{ suggestion.properties.name }}</h3>
+      <p>{{ suggestion.properties.entitled }} </p>
+      <p>{{ friendSuggestions.commun[i].low }} ami(s) en commun </p>
+    </div>
+    <button mat-raised-button
+      (click)="onFriendRequest(suggestion, i)">Ajouter</button>
+  </div>
+</div>

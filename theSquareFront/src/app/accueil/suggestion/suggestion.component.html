@@ -1,28 +1,23 @@
 <div id="suggestion-container">
   <div id="entreprises" class="element">
-    <h2 class="the-square-title">Ces entreprise pourrait vous intéressez ...</h2>
+    <h2 class="the-square-title">Ces entreprises pourraient vous intéresser ...
+    </h2>
     <div class="card" *ngFor="let entreprise of entreprises">
       <img src="../../../assets/entreprise.jpg" alt="{{ entreprise.nom }}">
       <div class="card-description">
         <h3>{{ entreprise.nom }}</h3>
         <p>{{ entreprise.description }}</p>
       </div>
-      <button mat-raised-button (click)="displayFollow(entreprise)">Suivre</button>
+      <button mat-raised-button
+        (click)="displayFollow(entreprise)">Suivre</button>
     </div>
   </div>
-  <div id="contacts" class="element">
-    <h2 class="the-square-title">Connaissez vous ?</h2>
-    <div class="card" *ngFor="let personne of personnes">
-      <img src="../../../assets/{{ personne.photo }}" alt="{{ personne.nom }}">
-      <div class="card-description">
-        <h3>{{ personne.nom }}</h3>
-        <p>{{ personne.intitule }}</p>
-      </div>
-      <button mat-raised-button (click)="displayAskFriend(personne)">Ajouter</button>
-    </div>
-  </div>
+
+  <app-friend-suggestion></app-friend-suggestion>
+
   <div id="travails" class="element">
-    <h2 class="the-square-title">Ces offres d'emplois correspondent à votre formation</h2>
+    <h2 class="the-square-title">Ces offres d'emploi correspondent à votre
+      formation</h2>
     <div class="card" *ngFor="let emploi of emplois">
       <div class="card-description-emploi">
         <h3>{{ emploi.intitule }}</h3>

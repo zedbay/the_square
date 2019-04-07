@@ -23,10 +23,24 @@ export class Entity {
     router.get("/entity", (req, res) => {
       return Entity.get(req, res, neo4j);
     });
+    router.post('/search', (req, res) => {
+      return Entity.search(req, res, neo4j);
+    });
     express.use("/", router);
     School.mountRoutes(express, neo4j);
     Person.mountRoutes(express, neo4j);
     Entreprise.mountRoutes(express, neo4j);
+  }
+
+  private static search(req: any, res: any, neo4j: Neo4j) {
+    neo4j.session
+      .run(`MATCH (e { name: "${req.body.first}"}) RETURN e AS entity UNION 
+        MATCH (e { firstName: "${req.body.first}"}) RETURN e AS entity UNION
+        MATCH (e { firstName: "${req.body.second}"}) RETURN e AS entity UNION
+        MATCH (e { name: "${req.body.second}"}) RETURN e AS entity`)
+      .then(result => {
+        return res.status(200).json({ data: result.records.map(element => element.get(0)) });
+      });
   }
 
   private static login(req: any, res: any, neo4j: Neo4j) {
@@ -36,11 +50,11 @@ export class Entity {
         if (!result.records[0]) {
           return res.status(200).json({ success: false });
         } else {
-          Token.add(result.records[0].get(0).identity, result.records[0].get(0).labels[0],neo4j).then(token => {
-            return res.status(200).json({ 
-              token: token, 
-              id: result.records[0].get(0).identity.low, 
-              type: result.records[0].get(0).labels[0] 
+          Token.add(result.records[0].get(0).identity, result.records[0].get(0).labels[0], neo4j).then(token => {
+            return res.status(200).json({
+              token: token,
+              id: result.records[0].get(0).identity.low,
+              type: result.records[0].get(0).labels[0]
             });
           });
         }

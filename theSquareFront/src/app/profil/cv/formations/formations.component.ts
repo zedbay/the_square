@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { Personne } from "../../../shared/models/personne";
 import { NetworkService } from "../../../shared/services/network.service";
 import {
   faPlus,
@@ -19,7 +18,7 @@ export class FormationsComponent implements OnInit {
   public faPlus: IconDefinition = faPlus;
   public faMinus: IconDefinition = faMinus;
   public faHammer: IconDefinition = faHammer;
-  public showModify: boolean = true;
+  public showModify: boolean = false;
   public schools: string[] = [];
   public formations = [];
 
@@ -39,12 +38,12 @@ export class FormationsComponent implements OnInit {
   private loadFormations() {
     this.networkService.get('formation/person/' + localStorage.getItem('id')).subscribe(formations => {
       this.formations = formations['data'].map(element => element['properties']);
-    })
+    });
   }
 
   public onDeleteFormation(intitule: string, index: number) {
     this.networkService.delete('formation/' + intitule).subscribe(() => {
-      this.formations.splice(index, index);
+      index === 0 ? this.formations.shift() : this.formations.splice(index, index);
     });
   }
 

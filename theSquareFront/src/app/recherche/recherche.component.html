@@ -1,0 +1,86 @@
+<div class="container recherche-container">
+  <div class="recherche element">
+    <h2 class="the-square-title">
+      <fa-icon [icon]="faSearch" id="search"></fa-icon>Recherche
+    </h2>
+    <form #searchForm="ngForm" (ngSubmit)="onSubmit(searchForm)">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Votre recherche" [(ngModel)]="recherche"
+          name="recherche">
+      </mat-form-field>
+      <mat-checkbox #checkPerson class="example-margin" [(ngModel)]="person"
+        color="primary" name="Person" unchecked="true">
+        Personne
+      </mat-checkbox>
+      <mat-checkbox #checkEntreprise class="example-margin"
+        [(ngModel)]="entreprise" name="Entreprise" color="primary">Entreprise
+      </mat-checkbox>
+      <mat-checkbox #checkSchool class="example-margin" [(ngModel)]="school"
+        color="primary" name="School">
+        Ecole
+      </mat-checkbox>
+      <button mat-flat-button color="primary" type="submit">
+        Rechercher
+      </button>
+    </form>
+  </div>
+  <div class="resultat">
+    <div class="element entitledSearch">
+      <h3>Résultat pour la recherche "{{ currentSearch }}" ...</h3>
+    </div>
+    <div class="person element"
+      *ngIf="personResearch.length && checkPerson.checked">
+      <h2 class="the-square-title">Personne(s)</h2>
+      <div *ngFor="let person of personResearch" class="container-recherche">
+        <img src="../../assets/{{ person.properties.photo }}"
+          alt="{{ person.properties.name }}">
+        <div class="description-recherche">
+          <h3>{{ person.properties.firstName }} {{ person.properties.name }}
+          </h3>
+          <p>{{ person.properties.entitled }}</p>
+        </div>
+        <div class="action-recherche">
+          <button mat-raised-button>Ajouter</button>
+          <button mat-raised-button>Consulter</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="entreprise element"
+      *ngIf="entrepriseResearch.length && checkEntreprise.checked">
+      <h2 class="the-square-title">Entreprise(s)</h2>
+      <div *ngFor="let entreprise of entrepriseResearch"
+        class="container-recherche">
+        <img src="../../assets/entreprise.jpg"
+          alt="{{ entreprise.properties.name }}">
+        <div class="description-recherche">
+          <h3>{{ entreprise.properties.name }}
+          </h3>
+          <p>{{ entreprise.properties.description }}</p>
+        </div>
+        <div class="action-recherche">
+          <button mat-raised-button>Suivre</button>
+          <button mat-raised-button>Consulter</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="school element"
+      *ngIf="schoolResearch.length && checkSchool.checked">
+      <h2 class="the-square-title">Ecole(s)</h2>
+      <div *ngFor="let school of schoolResearch" class="container-recherche">
+        <img src="../../assets/default.png" alt="{{ school.properties.name }}">
+        <div class="description-recherche">
+          <h3>{{ school.properties.name }}
+          </h3>
+          <p>{{ school.properties.description }}</p>
+        </div>
+        <div class="action-recherche">
+          <button mat-raised-button>Suivre</button>
+          <button mat-raised-button>Consulter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-friend-suggestion></app-friend-suggestion>
+</div>

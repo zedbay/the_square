@@ -1,17 +1,23 @@
 <div id="presentation" class="element">
   <div class="photo">
-    <img src="../../../assets/user1.jpg" alt="image utilisateur" />
+    <img src="../../../assets/{{ iam.photo }}" alt="image utilisateur" />
+    <div class="name-container">
+      <h2>{{ iam?.firstName }} {{ iam?.name }} : {{ iam?.entitled }}</h2>
+    </div>
   </div>
   <div class="description">
-    <h2 class="name">{{ iam.name }} {{ iam.firstName }}</h2>
-    <h3>initule</h3>
     <ul>
       <li>
-        ville
+        City : {{ iam?.city }}
       </li>
       <li>
-        <!-- {{ iam.dateDeNaissance | date: 'longDate' }} -->
-        date
+        BirthDate : {{ iam?.birthDate | date: 'longDate' }}
+      </li>
+      <li>
+        Work in : {{ entreprise?.properties?.name }}
+      </li>
+      <li>
+        Activity domain : {{ activity?.properties?.entitled }}
       </li>
     </ul>
   </div>

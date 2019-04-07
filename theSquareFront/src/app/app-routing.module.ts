@@ -7,6 +7,7 @@ import { EmploisComponent } from './emplois/emplois.component';
 import { ProfilComponent } from './profil/profil.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { PortailComponent } from './portail/portail.component';
+import { RechercheComponent } from './recherche/recherche.component';
 
 const routes: Routes = [
   { path: 'accueil', component: AccueilComponent },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'profil', component: ProfilComponent },
   { path: 'emplois', component: EmploisComponent },
   { path: 'messagerie', component: MessagerieComponent },
+  { path: 'recherche', component: RechercheComponent },
   { path: '', component: AccueilComponent },
   { path: '**', component: PageNotFoundComponent }
 ];

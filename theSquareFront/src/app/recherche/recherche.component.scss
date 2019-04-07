@@ -1,0 +1,86 @@
+.recherche-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-top: 1em;
+    h2 {
+        font-size: 1.2em ;
+        margin: 0 0 1em 0;
+    } 
+}
+
+.resultat {
+    width: calc(60% - 2em);
+    height: 1200px;
+    .entitledSearch {
+        padding: .5em;
+        margin-bottom: 1em;
+        h3 {
+            margin: 0;
+        }
+    }
+    .school,
+    .entreprise,
+    .person {
+        margin-bottom: 1em;
+        .container-recherche {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            flex-direction: row;
+            border: solid black;
+            border-width: 0 0 1px 0;
+            .description-recherche {
+                width: calc(100% - 20% - 7em - 2em);
+            }
+            .action-recherche {
+                width: 20%;
+                button {
+                    margin-top: 1em;
+                }
+            }
+        }
+        h2 {
+            width: calc(100% - 1em);
+        }
+        img { 
+            width: 7em;
+            height: 7em;
+            border-radius: 100%;
+            margin: 1em;
+        }
+    }
+}
+
+.recherche {
+    width: 15%;
+    position: sticky;
+    top: 4em;
+    display: flex;
+    flex-direction: column;
+    mat-form-field {
+        width: calc(100% - 1em);
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+         padding: .5em;
+         .mat-checkbox-layout {
+             margin-bottom: 1em;
+         }
+    }
+    #search {
+        margin-right: 1em;
+        font-size: 1.1em;
+    } 
+    h2 {
+        margin-bottom: 0 !important;
+    } 
+}
+
+app-friend-suggestion {
+    width: 25%;
+    position: sticky;
+    top: 4em;
+}
+

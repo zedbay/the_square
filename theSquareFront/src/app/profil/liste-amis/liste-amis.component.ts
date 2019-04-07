@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Personne } from '../../shared/models/personne';
 import { IconDefinition, faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { MatSnackBar } from '@angular/material';
+import { NetworkService } from "../../shared/services/network.service";
 
 @Component({
   selector: 'app-liste-amis',
@@ -10,33 +11,52 @@ import { MatSnackBar } from '@angular/material';
 })
 export class ListeAmisComponent implements OnInit {
 
-  @Input() amis: Personne[];
-  @Input() requeteAmis: Personne[];
-
   public faTimes: IconDefinition = faTimes;
   public faCheck: IconDefinition = faCheck;
   public someRequest: boolean = false;
+  public friends = [];
+  public friendsRequest = [];
 
-  constructor(private snackBar: MatSnackBar) { }
-
-  ngOnInit() {
-    this.displayRequest();
+  constructor(private snackBar: MatSnackBar, private networkService: NetworkService) {
+    this.loadFriendList();
+    this.loadFriendsRequest();
   }
+
+  ngOnInit() { }
+
+  private loadFriendsRequest() {
+    this.networkService.get('person/friendsRequest').subscribe(friends => {
+      this.friendsRequest = friends["data"];
+      this.displayRequest();
+    });
+  }
+
+  private loadFriendList() {
+    this.networkService.get('person/friends/' + localStorage.getItem('id')).subscribe(friends => {
+      this.friends = friends["data"];
+    });
+  }
+
 
   private displayRequest() {
-    this.requeteAmis.length > 0 ? this.someRequest = true : this.someRequest = false;
-  } 
-
-  public onAcceptRequest(friend: Personne) {
-    this.snackBar.open(friend.nom + ' ajouté à vos relations', '', { duration: 3000, horizontalPosition: "right" });
-    this.requeteAmis.pop();
-    this.displayRequest();
+    this.friendsRequest.length > 0 ? this.someRequest = true : this.someRequest = false;
   }
 
-  public onRejectRequest(frien: Personne) {
-    this.snackBar.open('Invitation refusé', '', { duration: 3000, horizontalPosition: "right" });
-    this.requeteAmis.pop();
-    this.displayRequest();
+  public onAcceptRequest(idPerson: number, friend: any, index: number) {
+    this.networkService.post('person/responseFriendRequest', { idPerson: idPerson, response: true }).subscribe(() => {
+      this.friends.push(friend);
+      index === 0 ? this.friendsRequest.shift() : this.friendsRequest.slice(index, index);
+      this.snackBar.open(friend.properties.firstName + ' ' + friend.properties.name + ' ajouté à vos relations', '', { duration: 3000, horizontalPosition: "right" });
+      this.displayRequest();
+    });
+  }
+
+  public onRejectRequest(idPerson: number, friend: any, index: number) {
+    this.networkService.post('person/responseFriendRequest', { idPerson: idPerson, response: false }).subscribe(() => {
+      index === 0 ? this.friendsRequest.shift() : this.friendsRequest.slice(index, index);
+      this.snackBar.open(friend.properties.firstName + ' ' + friend.properties.name + ' refusé', '', { duration: 3000, horizontalPosition: "right" });
+      this.displayRequest();
+    });
   }
 
 }

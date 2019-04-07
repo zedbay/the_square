@@ -11,14 +11,20 @@ export class PresentationComponent implements OnInit {
     name: "",
     firstName: ""
   };
+  public entreprise = [];
+  public activity = [];
 
   constructor(private networkService: NetworkService) {
-    this.networkService
-      .get("/entity/" + localStorage.getItem("token"))
-      .subscribe(e => {
-        this.iam = e["data"]["properties"];
-      });
+    this.networkService.get("entity").subscribe(e => {
+      this.iam = e["data"]["properties"];
+    });
+    this.networkService.get('entreprise/person/' + localStorage.getItem('id')).subscribe(entreprise => {
+      this.entreprise = entreprise["data"];
+    });
+    this.networkService.get('activity/' + localStorage.getItem('type') + '/' + localStorage.getItem('id')).subscribe(activity => {
+      this.activity = activity['data'];
+    });
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { faShareAlt, IconDefinition, faHome, faSuitcase, faEnvelope, faUser, faChevronDown, faPowerOff } from '@fortawesome/free-solid-svg-icons';
+import { faShareAlt, IconDefinition, faHome, faSuitcase, faEnvelope, faUser, faChevronDown, faPowerOff, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -15,11 +16,12 @@ export class HeaderComponent implements OnInit {
   public faUser: IconDefinition = faUser;
   public faChevronDown: IconDefinition = faChevronDown;
   public faPowerOff: IconDefinition = faPowerOff;
+  public faSearch: IconDefinition = faSearch;
 
   public userIsLogged: boolean;
   public valueOnOff: string;
 
-  constructor() {
+  constructor(private router: Router) {
     if (localStorage.getItem('token')) {
       this.userIsLogged = true;
       this.valueOnOff = "Déconnexion";
@@ -32,4 +34,10 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
   }
 
+  public onSubmit(value: string) {
+    localStorage.setItem('recherche', value);
+    this.router.navigate(['recherche']);
+  };
 }
+
+

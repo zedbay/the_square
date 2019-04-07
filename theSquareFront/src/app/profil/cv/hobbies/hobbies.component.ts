@@ -32,7 +32,7 @@ export class HobbiesComponent implements OnInit {
 
   public removeHobby(index: number) {
     this.networkService.delete("hobby/" + this.userHobbies[index]).subscribe(() => {
-      this.userHobbies.splice(index, index);
+      index === 0 ? this.userHobbies.shift() : this.userHobbies.splice(index, index);
     });
   }
 

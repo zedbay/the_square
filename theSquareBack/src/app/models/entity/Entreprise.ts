@@ -16,7 +16,7 @@ export class Entreprise {
     router.post("/", (req, res) => {
       return Entreprise.create(req, res, neo4j);
     });
-    router.get("/:idEntreprise", (req, res) => {
+    router.get("/", (req, res) => {
       return Entreprise.getAll(req, res, neo4j);
     });
     router.get("/followers/:idEntreprise", (req, res) => {
@@ -28,7 +28,18 @@ export class Entreprise {
     router.get("/jobs/:idEntreprise", (req, res) => {
       return Entreprise.getJobs(req, res, neo4j);
     });
+    router.get('/person/:idPerson', (req, res) => {
+      return Entreprise.getEntrepriseForPerson(req, res, neo4j);
+    });
     express.use("/entreprise", router);
+  }
+
+  private static getEntrepriseForPerson(req: any, res: any, neo4j: Neo4j) {
+    neo4j.session
+      .run(`MATCH (p:Person)-[:WORKIN]->(e:Entreprise) WHERE ID(p) = ${v1.int(req.params.idPerson)} RETURN e`)
+      .then(entreprise => {
+        return res.status(200).json({ data: entreprise.records[0].get(0) });
+      });
   }
 
   private static getJobs(req: any, res: any, neo4j: Neo4j) {
