@@ -3,6 +3,7 @@ import { Personne } from '../../shared/models/personne';
 import { IconDefinition, faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { MatSnackBar } from '@angular/material';
 import { NetworkService } from "../../shared/services/network.service";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-liste-amis',
@@ -17,12 +18,15 @@ export class ListeAmisComponent implements OnInit {
   public friends = [];
   public friendsRequest = [];
 
-  constructor(private snackBar: MatSnackBar, private networkService: NetworkService) {
-    this.loadFriendList();
+  constructor(private snackBar: MatSnackBar, private networkService: NetworkService, private route: ActivatedRoute) {
     this.loadFriendsRequest();
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.route.params.subscribe((e) => {
+      this.loadFriendList(e.id);
+    });
+  }
 
   private loadFriendsRequest() {
     this.networkService.get('person/friendsRequest').subscribe(friends => {
@@ -31,8 +35,8 @@ export class ListeAmisComponent implements OnInit {
     });
   }
 
-  private loadFriendList() {
-    this.networkService.get('person/friends/' + localStorage.getItem('id')).subscribe(friends => {
+  private loadFriendList(idUser: string) {
+    this.networkService.get('person/friends/' + idUser).subscribe(friends => {
       this.friends = friends["data"];
     });
   }

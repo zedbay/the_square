@@ -5,6 +5,7 @@ import { Router, Express } from "express";
 import { Person } from "./Person";
 import { Entreprise } from "./Entreprise";
 import { School } from "./School";
+import { v1 } from "neo4j-driver";
 
 export class Entity {
   public password: string;
@@ -20,7 +21,7 @@ export class Entity {
     router.post("/login", (req, res) => {
       return Entity.login(req, res, neo4j);
     });
-    router.get("/entity", (req, res) => {
+    router.get("/entity/:idEntity", (req, res) => {
       return Entity.get(req, res, neo4j);
     });
     router.post('/search', (req, res) => {
@@ -62,12 +63,10 @@ export class Entity {
   }
 
   private static get(req: any, res: any, neo4j: Neo4j) {
-    return Token.get(req.headers["authorization"], neo4j).then(resultat => {
-      neo4j.session
-        .run(`MATCH (e:${resultat.type}) WHERE ID(e) = ${resultat.id} RETURN e`)
-        .then(retour => {
-          return res.status(200).json({ data: retour.records[0].get(0) });
-        });
-    });
+    neo4j.session
+      .run(`MATCH (e:Person) WHERE ID(e) = ${v1.int(req.params.idEntity)} RETURN e`)
+      .then(retour => {
+        return res.status(200).json({ data: retour.records[0].get(0) });
+      });
   }
 }

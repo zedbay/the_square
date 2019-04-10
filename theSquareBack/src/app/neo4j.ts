@@ -8,7 +8,7 @@ export class Neo4j {
 
     constructor() {
         this.session.run('MATCH (n:Person { email : "kk@gmail.com", password : "a" }) RETURN n').then(r => {
-            console.log(r.records[0].get(0));
+            // console.log(r.records[0].get(0));
         });
     }
 

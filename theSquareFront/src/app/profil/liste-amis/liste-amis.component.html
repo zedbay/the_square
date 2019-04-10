@@ -24,6 +24,7 @@
       <h3>{{ friend.properties.firstName }} {{ friend.properties.name }}</h3>
       <p>{{ friend.properties.entitled }}</p>
     </div>
-    <button mat-raised-button>Consulter</button>
+    <button mat-raised-button
+      routerLink="/profil/{{ friend.identity.low }}">Consulter</button>
   </div>
 </div>

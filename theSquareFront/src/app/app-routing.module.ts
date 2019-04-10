@@ -12,7 +12,7 @@ import { RechercheComponent } from './recherche/recherche.component';
 const routes: Routes = [
   { path: 'accueil', component: AccueilComponent },
   { path: 'portail', component: PortailComponent },
-  { path: 'profil', component: ProfilComponent },
+  { path: 'profil/:id', component: ProfilComponent },
   { path: 'emplois', component: EmploisComponent },
   { path: 'messagerie', component: MessagerieComponent },
   { path: 'recherche', component: RechercheComponent },

@@ -18,7 +18,7 @@ export class WhoamiComponent implements OnInit {
   };
 
   constructor(private randomModels: RandomModelsService, private networkService: NetworkService) {
-    this.networkService.get('entity').subscribe(iam => {
+    this.networkService.get('entity/' + localStorage.getItem('id')).subscribe(iam => {
       this.iam = iam['data'];
     });
   }

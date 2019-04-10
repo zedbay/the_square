@@ -3,6 +3,7 @@ import { NgForm } from "@angular/forms";
 import { IconDefinition, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { NetworkService } from '../shared/services/network.service';
 import { MatSnackBar } from '@angular/material';
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-recherche',

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { NetworkService } from "../../../shared/services/network.service";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-presentation",
@@ -14,17 +15,33 @@ export class PresentationComponent implements OnInit {
   public entreprise = [];
   public activity = [];
 
-  constructor(private networkService: NetworkService) {
-    this.networkService.get("entity").subscribe(e => {
+  constructor(private networkService: NetworkService, private route: ActivatedRoute) { }
+
+  ngOnInit() {
+    this.route.params.subscribe((params) => {
+      this.loadUser(params.id);
+      this.loadActivity(params.id);
+      this.loadEntreprise(params.id);
+    });
+  }
+
+  private loadUser(idUser: string) {
+    this.networkService.get('entity/' + idUser).subscribe(e => {
       this.iam = e["data"]["properties"];
     });
-    this.networkService.get('entreprise/person/' + localStorage.getItem('id')).subscribe(entreprise => {
-      this.entreprise = entreprise["data"];
-    });
-    this.networkService.get('activity/' + localStorage.getItem('type') + '/' + localStorage.getItem('id')).subscribe(activity => {
+  }
+
+  private loadActivity(idUser: string) {
+    this.networkService.get('activity/Person/' + idUser).subscribe(activity => {
       this.activity = activity['data'];
     });
   }
 
-  ngOnInit() { }
+  private loadEntreprise(idUser: string) {
+    this.networkService.get('entreprise/person/' + idUser).subscribe(entreprise => {
+      this.entreprise = entreprise["data"];
+    });
+  }
+
+
 }

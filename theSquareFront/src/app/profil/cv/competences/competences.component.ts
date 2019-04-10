@@ -8,6 +8,7 @@ import {
   faHammer
 } from "@fortawesome/free-solid-svg-icons";
 import { NetworkService } from "../../../shared/services/network.service";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-competences",
@@ -22,8 +23,8 @@ export class CompetencesComponent implements OnInit {
   public skills: string[] = [];
   public userSkills: string[] = [];
 
-  constructor(private networkService: NetworkService) {
-    this.loadUserSkills();
+  constructor(private networkService: NetworkService, private route: ActivatedRoute) {
+    this.loadUserSkills(this.route.snapshot.paramMap.get('id'));
     this.loadSkills();
   }
 
@@ -47,8 +48,8 @@ export class CompetencesComponent implements OnInit {
     });
   }
 
-  private loadUserSkills() {
-    this.networkService.get("skill/" + localStorage.getItem("type") + "/" + localStorage.getItem("id")).subscribe(e => {
+  private loadUserSkills(idUser: string) {
+    this.networkService.get("skill/" + localStorage.getItem("type") + "/" + idUser).subscribe(e => {
       this.userSkills = e["data"].map(element => element["properties"]["entitled"]);
     });
   }

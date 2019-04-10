@@ -7,6 +7,7 @@ import {
   faHammer
 } from "@fortawesome/free-solid-svg-icons";
 import { NgForm } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-formations",
@@ -22,9 +23,9 @@ export class FormationsComponent implements OnInit {
   public schools: string[] = [];
   public formations = [];
 
-  constructor(private networkService: NetworkService) {
+  constructor(private networkService: NetworkService, private route: ActivatedRoute) {
     this.loadSchools();
-    this.loadFormations();
+    this.loadFormations(this.route.snapshot.paramMap.get('id'));
   }
 
   ngOnInit() { }
@@ -35,8 +36,8 @@ export class FormationsComponent implements OnInit {
     });
   }
 
-  private loadFormations() {
-    this.networkService.get('formation/person/' + localStorage.getItem('id')).subscribe(formations => {
+  private loadFormations(idUser: string) {
+    this.networkService.get('formation/person/' + idUser).subscribe(formations => {
       this.formations = formations['data'].map(element => element['properties']);
     });
   }

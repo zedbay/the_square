@@ -8,6 +8,7 @@ import {
   faHammer
 } from "@fortawesome/free-solid-svg-icons";
 import { NetworkService } from "../../../shared/services/network.service";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-hobbies",
@@ -23,12 +24,14 @@ export class HobbiesComponent implements OnInit {
   public hobbies: string[] = [];
   public userHobbies: string[] = [];
 
-  constructor(private networkService: NetworkService) {
-    this.loadUserHobbies();
-    this.loadHobbies();
+  constructor(private networkService: NetworkService, private route: ActivatedRoute) {
+
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.loadUserHobbies(this.route.snapshot.paramMap.get('id'));
+    this.loadHobbies();
+  }
 
   public removeHobby(index: number) {
     this.networkService.delete("hobby/" + this.userHobbies[index]).subscribe(() => {
@@ -36,8 +39,8 @@ export class HobbiesComponent implements OnInit {
     });
   }
 
-  private loadUserHobbies() {
-    this.networkService.get("hobby/person/" + localStorage.getItem('id')).subscribe(e => {
+  private loadUserHobbies(idUser: string) {
+    this.networkService.get("hobby/person/" + idUser).subscribe(e => {
       this.userHobbies = e["data"].map(element => element["properties"]["entitled"]);
     });
   }
