@@ -13,7 +13,7 @@ export class NetworkService {
   private getHeader() {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': localStorage.getItem('token')
+      'Authorization': localStorage.getItem('token') ? localStorage.getItem('token') : ''
     });
     return headers;
   }

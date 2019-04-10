@@ -22,13 +22,13 @@ export class HeaderComponent implements OnInit {
   public valueOnOff: string;
 
   constructor(private router: Router) {
-    if (localStorage.getItem('token')) {
-      this.userIsLogged = true;
-      this.valueOnOff = "Déconnexion";
-    } else {
-      this.userIsLogged = false;
-      this.valueOnOff = "Connexion";
-    }
+    // if (localStorage.getItem('token')) {
+    this.userIsLogged = true;
+    this.valueOnOff = "Déconnexion";
+    // } else {
+    //   this.userIsLogged = false;
+    //   this.valueOnOff = "Connexion";
+    // }
   }
 
   ngOnInit() {
