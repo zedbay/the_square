@@ -11,7 +11,7 @@
       <li *ngIf="userIsLogged">
         <button mat-button routerLink="accueil">
           <fa-icon [icon]="faHome"></fa-icon>
-          <p>Accueil</p>
+          <p>Accueil {{ localStorage }}</p>
         </button>
       </li>
       <li *ngIf="userIsLogged">
