@@ -21,7 +21,8 @@
   <div class="card" *ngFor="let friend of friends">
     <img src="../../../assets/{{ friend.properties.photo }}" alt="">
     <div class="card-description">
-      <h3>{{ friend.properties.firstName }} {{ friend.properties.name }}</h3>
+      <h3 (click)="onVisitProfil(friend)">{{ friend.properties.firstName }}
+        {{ friend.properties.name }}</h3>
       <p>{{ friend.properties.entitled }}</p>
     </div>
     <button mat-raised-button

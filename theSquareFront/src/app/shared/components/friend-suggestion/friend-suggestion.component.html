@@ -5,7 +5,8 @@
     <img src="../../../assets/{{ suggestion.properties.photo }}"
       alt="{{ suggestion.properties.name }}">
     <div class="card-description">
-      <h3>{{ suggestion.properties.firstName }}
+      <h3 (click)="onVisitProfil(suggestion)">
+        {{ suggestion.properties.firstName }}
         {{ suggestion.properties.name }}</h3>
       <p>{{ suggestion.properties.entitled }} </p>
       <p>{{ friendSuggestions.commun[i].low }} ami(s) en commun </p>

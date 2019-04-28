@@ -7,6 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { NgForm } from '@angular/forms';
 import { NetworkService } from "../../../shared/services/network.service";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: 'app-experiences',
@@ -22,16 +23,17 @@ export class ExperiencesComponent implements OnInit {
   public entreprises: string[] = [];
   public experiences = [];
 
-  constructor(private networkService: NetworkService) {
-    this.loadExperiences();
-    this.loadEntreprise();
-  }
+  constructor(private networkService: NetworkService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.loadEntreprise();
+    this.route.params.subscribe(params => {
+      this.loadExperiences(params.id);
+    });
   }
 
-  private loadExperiences() {
-    this.networkService.get('experience/person/' + localStorage.getItem('id')).subscribe(experiences => {
+  private loadExperiences(idUser: string) {
+    this.networkService.get('experience/person/' + idUser).subscribe(experiences => {
       this.experiences = experiences['data'].map(element => element['properties']);
     });
   }

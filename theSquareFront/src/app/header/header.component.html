@@ -8,28 +8,34 @@
       </fa-icon>
     </div>
     <ul>
-      <li *ngIf="userIsLogged">
+      <li>
         <button mat-button routerLink="accueil">
           <fa-icon [icon]="faHome"></fa-icon>
           <p>Accueil {{ localStorage }}</p>
         </button>
       </li>
-      <li *ngIf="userIsLogged">
+      <li>
         <button mat-button routerLink="emplois">
           <fa-icon [icon]="faSuitcase"></fa-icon>
           <p>Emplois</p>
         </button>
       </li>
-      <li *ngIf="userIsLogged">
+      <li>
         <button mat-button routerLink="messagerie">
           <fa-icon [icon]="faEnvelope"></fa-icon>
           <p>Messagerie</p>
         </button>
       </li>
-      <li *ngIf="userIsLogged">
+      <li>
         <button mat-button routerLink="profil/{{ getId() }}">
           <fa-icon [icon]="faUser"></fa-icon>
           <p>Vous</p>
+        </button>
+      </li>
+      <li>
+        <button mat-button>
+          <fa-icon [icon]="faBell"></fa-icon>
+          <p>Notifications</p>
         </button>
       </li>
       <li>

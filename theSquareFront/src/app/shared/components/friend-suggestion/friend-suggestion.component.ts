@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NetworkService } from '../../services/network.service';
 import { MatSnackBar } from '@angular/material';
+import { FriendService } from '../../services/friend.service';
 
 @Component({
   selector: 'app-friend-suggestion',
@@ -11,7 +12,7 @@ export class FriendSuggestionComponent implements OnInit {
 
   public friendSuggestions: any = { users: [], commun: [] };
 
-  constructor(private networkService: NetworkService, private snackBar: MatSnackBar) { }
+  constructor(private networkService: NetworkService, private snackBar: MatSnackBar, private friendService: FriendService) { }
 
   ngOnInit() {
     this.loadFriendSuggestions();
@@ -24,10 +25,14 @@ export class FriendSuggestionComponent implements OnInit {
   }
 
   public onFriendRequest(personne: any, index: number) {
-    this.networkService.post('person/friendsRequest', { idCollector: personne["identity"]["low"] }).subscribe(() => {
+    this.friendService.onFriendRequest(personne).subscribe(() => {
       index === 0 ? this.friendSuggestions.users.shift() : this.friendSuggestions.users.slice(index, index);
       this.snackBar.open('Demande d\'amis envoyé à ' + personne.properties.firstName + ' ' + personne.properties.name, '', { duration: 3000, horizontalPosition: "right" });
     });
+  }
+
+  public onVisitProfil(personne: any) {
+    this.friendService.onVisitProfil(personne);
   }
 
 }
