@@ -3,6 +3,7 @@ import { BackgroundRoutes } from "./background.routes";
 import { EntityRoutes } from "./entity.routes";
 import { TraitRoutes } from './trait.routes';
 import { JobRoutes } from './job.routes';
+import { PostRoutes } from './post.routes';
 
 export class TheSquareRouter {
 
@@ -16,6 +17,7 @@ export class TheSquareRouter {
         EntityRoutes.init(express);
         TraitRoutes.init(express);
         JobRoutes.init(express);
+        PostRoutes.init(express);
     }
 
 }
