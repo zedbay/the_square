@@ -23,12 +23,14 @@ export class FormationsComponent implements OnInit {
   public schools: string[] = [];
   public formations = [];
 
-  constructor(private networkService: NetworkService, private route: ActivatedRoute) {
-    this.loadSchools();
-    this.loadFormations(this.route.snapshot.paramMap.get('id'));
-  }
+  constructor(private networkService: NetworkService, private route: ActivatedRoute) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.loadSchools();
+    this.route.params.subscribe(params => {
+      this.loadFormations(params.id);
+    });
+  }
 
   private loadSchools() {
     this.networkService.get('school').subscribe(school => {

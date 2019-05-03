@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { faShareAlt, IconDefinition, faHome, faSuitcase, faEnvelope, faUser, faChevronDown, faPowerOff, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faShareAlt, IconDefinition, faHome, faSuitcase, faEnvelope, faUser, faChevronDown, faPowerOff, faSearch, faBell } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,12 +17,9 @@ export class HeaderComponent implements OnInit {
   public faChevronDown: IconDefinition = faChevronDown;
   public faPowerOff: IconDefinition = faPowerOff;
   public faSearch: IconDefinition = faSearch;
-
-  public userIsLogged: boolean;
   public valueOnOff: string;
 
   constructor(private router: Router) {
-    this.userIsLogged = true;
     this.valueOnOff = "Déconnexion";
   }
 

@@ -1,18 +1,4 @@
 <div id="suggestion-container">
-  <div id="entreprises" class="element">
-    <h2 class="the-square-title">Ces entreprises pourraient vous intéresser ...
-    </h2>
-    <div class="card" *ngFor="let entreprise of entreprises">
-      <img src="../../../assets/entreprise.jpg" alt="{{ entreprise.nom }}">
-      <div class="card-description">
-        <h3>{{ entreprise.nom }}</h3>
-        <p>{{ entreprise.description }}</p>
-      </div>
-      <button mat-raised-button
-        (click)="displayFollow(entreprise)">Suivre</button>
-    </div>
-  </div>
-
   <app-friend-suggestion></app-friend-suggestion>
 
   <div id="travails" class="element">

@@ -1,0 +1,7 @@
+{
+    "environment": {
+        "production": false,
+        "development": true
+    },
+    "port": 8080
+}

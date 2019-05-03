@@ -29,7 +29,9 @@ export class HobbiesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loadUserHobbies(this.route.snapshot.paramMap.get('id'));
+    this.route.params.subscribe(params => {
+      this.loadUserHobbies(params.id);
+    });
     this.loadHobbies();
   }
 

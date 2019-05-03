@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Personne } from '../../shared/models/personne';
 import { IconDefinition, faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { MatSnackBar } from '@angular/material';
 import { NetworkService } from "../../shared/services/network.service";
 import { ActivatedRoute } from "@angular/router";
+import { FriendService } from '../../shared/services/friend.service';
 
 @Component({
   selector: 'app-liste-amis',
@@ -18,7 +18,7 @@ export class ListeAmisComponent implements OnInit {
   public friends = [];
   public friendsRequest = [];
 
-  constructor(private snackBar: MatSnackBar, private networkService: NetworkService, private route: ActivatedRoute) {
+  constructor(private snackBar: MatSnackBar, private networkService: NetworkService, private route: ActivatedRoute, private friendService: FriendService) {
     this.loadFriendsRequest();
   }
 
@@ -61,6 +61,10 @@ export class ListeAmisComponent implements OnInit {
       this.snackBar.open(friend.properties.firstName + ' ' + friend.properties.name + ' refusé', '', { duration: 3000, horizontalPosition: "right" });
       this.displayRequest();
     });
+  }
+
+  public onVisitProfil(personne: any) {
+    this.friendService.onVisitProfil(personne);
   }
 
 }

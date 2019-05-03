@@ -1,3 +1,8 @@
 .suggestions-container {
     margin-bottom: 1em;
 }
+
+h3:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}

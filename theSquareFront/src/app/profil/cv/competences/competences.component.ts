@@ -23,15 +23,17 @@ export class CompetencesComponent implements OnInit {
   public skills: string[] = [];
   public userSkills: string[] = [];
 
-  constructor(private networkService: NetworkService, private route: ActivatedRoute) {
-    this.loadUserSkills(this.route.snapshot.paramMap.get('id'));
+  constructor(private networkService: NetworkService, private route: ActivatedRoute) { }
+
+  ngOnInit() {
     this.loadSkills();
+    this.route.params.subscribe(params => {
+      this.loadUserSkills(params.id);
+    });
   }
 
-  ngOnInit() { }
-
   public onSubmit(form: NgForm) {
-    this.networkService.post("skill", form.value).subscribe(e => {
+    this.networkService.post("skill", form.value).subscribe(() => {
       this.userSkills.push(form.value.entitled);
     });
   }
