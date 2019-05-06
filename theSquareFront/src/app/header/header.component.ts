@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { faShareAlt, IconDefinition, faHome, faSuitcase, faEnvelope, faUser, faChevronDown, faPowerOff, faSearch, faBell } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
+import { JwtService } from '../shared/services/jwt.service';
 
 @Component({
   selector: 'app-header',
@@ -17,9 +18,10 @@ export class HeaderComponent implements OnInit {
   public faChevronDown: IconDefinition = faChevronDown;
   public faPowerOff: IconDefinition = faPowerOff;
   public faSearch: IconDefinition = faSearch;
+  public faBell: IconDefinition = faBell;
   public valueOnOff: string;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private jwt: JwtService) {
     this.valueOnOff = "Déconnexion";
   }
 
@@ -32,7 +34,8 @@ export class HeaderComponent implements OnInit {
   };
 
   public getId(): string {
-    return localStorage.getItem('id');
+    const claims = this.jwt.getClaims();
+    return claims.get('id');
   }
 }
 

@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { RandomModelsService } from '../../services/random-models.service';
+import { Component, OnInit } from '@angular/core';
 import { NetworkService } from '../../services/network.service';
+import { JwtService } from '../../services/jwt.service';
 
 @Component({
   selector: 'app-whoami',
@@ -17,8 +17,9 @@ export class WhoamiComponent implements OnInit {
     }
   };
 
-  constructor(private randomModels: RandomModelsService, private networkService: NetworkService) {
-    this.networkService.get('entity/' + localStorage.getItem('id')).subscribe(iam => {
+  constructor(private networkService: NetworkService, private jwt: JwtService) {
+    const claims = this.jwt.getClaims();
+    this.networkService.get('entity/' + claims.get('id')).subscribe(iam => {
       this.iam = iam['data'];
     });
   }

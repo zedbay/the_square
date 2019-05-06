@@ -30,7 +30,7 @@ export class SkillHandler {
     }
 
     public static get(req: any, res: any) {
-        const request = `MATCH (e:${req.params.typeEntity})-[:MASTERY]->(s:Skill) WHERE ID(e) = ${v1.int(req.params.idEntity)} RETURN s`;
+        const request = `MATCH (e)-[:MASTERY]->(s:Skill) WHERE ID(e) = ${v1.int(req.params.idEntity)} RETURN s`;
         Neo4j.execute(request).then(skills => {
             return res.status(200).json({ data: skills.records.map(element => element.get(0)) });
         });

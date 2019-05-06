@@ -1,6 +1,9 @@
 <div class="container accueil-container">
   <app-whoami class="element"></app-whoami>
-  <app-actualite class="element"></app-actualite>
+  <div class="main-accueil">
+    <app-form-post></app-form-post>
+    <app-actualite></app-actualite>
+  </div>
   <app-suggestion [entreprises]="entreprises" [emplois]="emplois">
   </app-suggestion>
 </div>

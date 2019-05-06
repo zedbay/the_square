@@ -1,0 +1,10 @@
+<div class="form-container element">
+  <h2 class="the-square-title">Créer une publication</h2>
+  <form #formPublish (ngSubmit)="onSubmit(formPublish)">
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Exprimez-vous ..." type="text" id="message"
+        name="message" [(ngModel)]="message">
+    </mat-form-field>
+    <button type="submit" mat-flat-button color="primary">Publier</button>
+  </form>
+</div>

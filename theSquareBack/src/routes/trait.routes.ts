@@ -9,12 +9,12 @@ export class TraitRoutes {
     public static init(express: Express) {
         const router: Router = Router();
         TraitRoutes.mountPrivateRoutes(router);
-		TraitRoutes.mountPublicRoutes(router);
-		express.use('/', router);
+        TraitRoutes.mountPublicRoutes(router);
+        express.use('/', router);
     }
 
     private static mountPublicRoutes(router: Router) {
-        router.get('/skill/:typeEntity/:idEntity"', (req, res) => {
+        router.get('/skill/:idEntity', (req, res) => {
             SkillHandler.get(req, res);
         });
         router.get('/skill', (req, res) => {
@@ -32,9 +32,9 @@ export class TraitRoutes {
         router.get('/activity/:typeEntity/:idEntity', (req, res) => {
             ActivityHandler.get(req, res);
         });
-	}
+    }
 
-	private static mountPrivateRoutes(router: Router) {
+    private static mountPrivateRoutes(router: Router) {
         router.post('/skill', checkJwt, (req, res) => {
             SkillHandler.add(req, res);
         });
@@ -46,12 +46,12 @@ export class TraitRoutes {
         });
         router.delete('/hobby/:entitled', checkJwt, (req, res) => {
             HobbyHandler.delete(req, res);
-        });  
+        });
         router.post('/activity', checkJwt, (req, res) => {
             ActivityHandler.add(req, res);
         });
         router.delete('/activity/:entitled', checkJwt, (req, res) => {
             ActivityHandler.delete(res, res);
         });
-	}
+    }
 }

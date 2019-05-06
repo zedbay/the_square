@@ -1,5 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { Personne } from "src/app/shared/models/personne";
+import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import {
   faPlus,
@@ -23,7 +22,9 @@ export class CompetencesComponent implements OnInit {
   public skills: string[] = [];
   public userSkills: string[] = [];
 
-  constructor(private networkService: NetworkService, private route: ActivatedRoute) { }
+  constructor(
+    private networkService: NetworkService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.loadSkills();
@@ -45,13 +46,13 @@ export class CompetencesComponent implements OnInit {
   }
 
   private loadSkills() {
-    this.networkService.get("skill").subscribe(e => {
+    this.networkService.get("skill/").subscribe(e => {
       this.skills = e["data"].map(element => element["properties"]["entitled"]);
     });
   }
 
-  private loadUserSkills(idUser: string) {
-    this.networkService.get("skill/" + localStorage.getItem("type") + "/" + idUser).subscribe(e => {
+  private loadUserSkills(idUser: number) {
+    this.networkService.get("skill/" + idUser).subscribe(e => {
       this.userSkills = e["data"].map(element => element["properties"]["entitled"]);
     });
   }

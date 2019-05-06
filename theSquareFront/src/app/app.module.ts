@@ -39,6 +39,7 @@ import { PresentationComponent } from "./profil/cv/presentation/presentation.com
 import { ExperiencesComponent } from './profil/cv/experiences/experiences.component';
 import { RechercheComponent } from './recherche/recherche.component';
 import { FriendSuggestionComponent } from './shared/components/friend-suggestion/friend-suggestion.component';
+import { FormPostComponent } from './shared/components/form-post/form-post.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { FriendSuggestionComponent } from './shared/components/friend-suggestion
     PresentationComponent,
     ExperiencesComponent,
     RechercheComponent,
-    FriendSuggestionComponent
+    FriendSuggestionComponent,
+    FormPostComponent
   ],
   imports: [
     BrowserModule,

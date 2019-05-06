@@ -7,10 +7,10 @@ import { PostRoutes } from './post.routes';
 
 export class TheSquareRouter {
 
-    constructor(express: Express) { 
+    constructor(express: Express) {
         const router: Router = Router();
-        router.get('/isAlive', (_, res) => {
-            return res.status(200).json({ isAlive : true });
+        router.get('/isAlive', (req, res) => {
+            return res.status(200).json({ isAlive: true });
         });
         express.use("/", router);
         BackgroundRoutes.init(express);

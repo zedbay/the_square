@@ -26,10 +26,10 @@ export class EntityRoutes {
             EntityHandler.search(req, res);
         });
         router.post('/entreprise', (req, res) => {
-            EntrepriseHandler.getAll(req, res);
+            EntrepriseHandler.create(req, res);
         });
         router.get('/entreprise', (req, res) => {
-            EntrepriseHandler.create(req, res);
+            EntrepriseHandler.getAll(req, res);
         });
         router.get("/entreprise/followers/:idEntreprise", (req, res) => {
             EntrepriseHandler.getFollowers(req, res);

@@ -22,8 +22,6 @@ export class ConnexionComponent implements OnInit {
         this.loginFail = true;
       } else {
         localStorage.setItem("token", res['token']);
-        localStorage.setItem("id", res['id']);
-        localStorage.setItem("type", res['type']);
         this.router.navigate(['/']);
       }
     });
