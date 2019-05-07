@@ -3,7 +3,7 @@ import { Driver, Session } from 'neo4j-driver/types/v1';
 
 export class Neo4j {
 
-    private static driver: Driver = neo4j.driver('bolt://localhost:7687', neo4j.auth.basic('neo4j', 'azerty'));
+    private static driver: Driver = neo4j.driver('bolt://neo4j:7687', neo4j.auth.basic('neo4j', 'azerty'));
     private static session: Session = Neo4j.driver.session();
 
     public static async execute(request: string) {

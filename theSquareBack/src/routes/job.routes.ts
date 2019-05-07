@@ -19,10 +19,10 @@ export class JobRoutes {
 
 	private static mountPrivateRoutes(router: Router) {
 		router.post('/job', checkJwt, (req, res) => {
-            JobHandler.add(req, res);
+            	JobHandler.add(req, res);
 		});
 		router.delete('/job/:idJob', checkJwt, (req, res) => {
-            JobHandler.delete(res, res);
+            	JobHandler.delete(req, res);
 		});
 	}
 }
