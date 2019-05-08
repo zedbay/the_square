@@ -1,0 +1,40 @@
+.actualite-container {
+    margin-top: 1em;
+}
+.post {
+    margin-bottom: .5em;
+    padding: .5em;
+    p {
+        margin: 0;
+    }
+    .content-post {
+        margin: 0 0 1em 1.5em;
+    }
+    h3 {
+        margin: 0 0 .5em 0;
+        .date-post {
+            font-weight: normal;
+            margin-left: .5em;
+            font-style: italic;
+            font-size: 0.8em;
+        }
+        .author-post:hover {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    }
+    .react-post {
+        display: flex;
+        margin-left: 1.5em;
+        fa-icon {
+            font-size: .8em;
+            margin-right: .5em;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+        p {
+            margin: 0 2em 0 .5em;
+        }
+    }
+}

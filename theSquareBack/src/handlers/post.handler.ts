@@ -6,7 +6,7 @@ export class PostHandler {
 
     public static create(req, res) {
         const claims: Map<string, any> = Security.getIdentity(req);
-        const request  = 
+        const request =
             `MATCH 
                 (e:${claims.get('type')}) 
             WHERE 
@@ -22,12 +22,12 @@ export class PostHandler {
             .catch((err) => {
                 return res.status(500).json({ error: err });
             })
-        ;
+            ;
     }
 
     public static delete(req, res) {
         const claims: Map<string, any> = Security.getIdentity(req);
-        const request = 
+        const request =
             `MATCH 
                 (e:${claims.get('type')}),
                 (p:Post)
@@ -43,12 +43,12 @@ export class PostHandler {
             .catch((err) => {
                 return res.status(500).json({ error: err });
             })
-        ;
+            ;
     }
 
     public static react(req, res) {
         const claims: Map<string, any> = Security.getIdentity(req);
-        const request = 
+        const request =
             `MATCH 
                 (e: ${claims.get('type')}),
                 (p:Post)
@@ -64,31 +64,32 @@ export class PostHandler {
             .catch((err) => {
                 return res.status(500).json({ error: err });
             })
-        ;
+            ;
     }
 
     public static get(req, res) {
         const claims: Map<string, any> = Security.getIdentity(req);
         const request =
             `MATCH 
-                (e:${claims.get('type')})-[]-()-[]->(p:Post)
+                (e:${claims.get('type')})-[]-(a)-[]->(p:Post)
             WHERE 
                 ID(e) = ${v1.int(claims.get('id'))} 
-            RETURN DISTINCT p LIMIT 15`
+            RETURN DISTINCT p, a LIMIT 15`
         Neo4j.execute(request)
             .then((posts) => {
-                return res.status(200).json({ 
-                    posts: posts.records.map(element => element.get(0))
+                return res.status(200).json({
+                    posts: posts.records.map(element => element.get(0)),
+                    authors: posts.records.map(element => element.get(1))
                 });
             })
             .catch(err => {
                 return res.status(500).json({ error: err });
             })
-        ;
+            ;
     }
 
     public static getPostForOneEntity(req, res) {
-        const request = 
+        const request =
             `MATCH 
                 (e)-[:PUBLISH]->(p:Post) 
             WHERE 
@@ -101,6 +102,6 @@ export class PostHandler {
             .catch((err) => {
                 return res.status(500).json({ error: err });
             })
-        ;
+            ;
     }
 }

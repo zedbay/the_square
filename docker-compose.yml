@@ -1,7 +1,6 @@
 version: "3"
 services:
 
-  # mdp : azerty
   neo4j: 
     image: neo4j:latest
     ports:
@@ -25,27 +24,27 @@ services:
       - neo4j
     volumes:
       - ./theSquareBack:/usr/src/app/theSquareBack
-    command: bash -c "npm i && npm start"
+    command: bash -c "npm i && npm run dev"
     networks:
       - the-square-network
 
-  angular:
-    image: node:latest
-    working_dir: /usr/src/app/theSquareFront
-    ports:
-      - "4200:4200"
-    expose:
-      - "4200"
-    links:
-      - "express:express"
-    depends_on:
-      - neo4j
-      - express
-    volumes:
-      - ./theSquareFront:/usr/src/app/theSquareFront
-    networks:
-      - the-square-network
-    command: bash -c "npm i -g @angular/cli && npm i && ng serve --host 0.0.0.0 --port 4200"
+  # angular:
+  #   image: node:latest
+  #   working_dir: /usr/src/app/theSquareFront
+  #   ports:
+  #     - "4200:4200"
+  #   expose:
+  #     - "4200"
+  #   links:
+  #     - "express:express"
+  #   depends_on:
+  #     - neo4j
+  #     - express
+  #   volumes:
+  #     - ./theSquareFront:/usr/src/app/theSquareFront
+  #   networks:
+  #     - the-square-network
+  #   command: bash -c "npm i -g @angular/cli && npm i && ng serve --host 0.0.0.0 --port 4200"
 
 networks:
   the-square-network:

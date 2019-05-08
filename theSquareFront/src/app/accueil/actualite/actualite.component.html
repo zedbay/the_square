@@ -1,3 +1,19 @@
-<p>
-  actualite works!
-</p>
+<div class="actualite-container">
+	<div class="post element" *ngFor="let post of posts">
+		<h3 (click)="onVisitProfil(post.author)">
+			<span class="author-post">{{ post.author.properties.firstName }}
+				{{ post.author.properties.name }}</span>
+			<span
+				class="date-post">{{ post.content.properties.date | date: 'longDate' }}</span>
+		</h3>
+		<p class="content-post">{{ post.content.properties.message }}</p>
+		<div class="react-post">
+			<fa-icon [icon]="faThumbsUp" (click)="onReactPost(post, 'LIKE')">
+			</fa-icon>
+			<p>8</p>
+			<fa-icon [icon]="faThumbsDown"
+				(click)="onReactPost(post, 'DISLIKE')"></fa-icon>
+			<p>1</p>
+		</div>
+	</div>
+</div>
