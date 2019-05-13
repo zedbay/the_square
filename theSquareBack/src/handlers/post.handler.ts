@@ -71,9 +71,9 @@ export class PostHandler {
         const claims: Map<string, any> = Security.getIdentity(req);
         const request =
             `MATCH 
-                (e:${claims.get('type')})-[]-(a)-[]->(p:Post)
+                (e:${claims.get('type')})-[]-(a)-[:PUBLISH]->(p:Post)
             WHERE 
-                ID(e) = ${v1.int(claims.get('id'))} 
+                ID(e) = ${v1.int(claims.get('id'))}
             RETURN DISTINCT p, a LIMIT 15`
         Neo4j.execute(request)
             .then((posts) => {

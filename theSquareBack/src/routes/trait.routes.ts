@@ -51,7 +51,7 @@ export class TraitRoutes {
             ActivityHandler.add(req, res);
         });
         router.delete('/activity/:entitled', checkJwt, (req, res) => {
-            ActivityHandler.delete(res, res);
+            ActivityHandler.delete(req, res);
         });
     }
 }

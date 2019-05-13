@@ -31,7 +31,7 @@ export class EntityRoutes {
         router.get('/entreprise', (req, res) => {
             EntrepriseHandler.getAll(req, res);
         });
-        router.get("/entreprise/followers/:idEntreprise", (req, res) => {
+        router.get('/entreprise/followers/:idEntreprise', (req, res) => {
             EntrepriseHandler.getFollowers(req, res);
         });
         router.get("/entreprise/employes /:idEntreprise", (req, res) => {

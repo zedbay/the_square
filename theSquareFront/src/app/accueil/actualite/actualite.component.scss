@@ -1,3 +1,5 @@
+@import '../../shared/scss/const.scss';
+
 .actualite-container {
     margin-top: 1em;
 }
@@ -7,11 +9,24 @@
     p {
         margin: 0;
     }
-    .content-post {
-        margin: 0 0 1em 1.5em;
+    .post-content {
+        display: flex;
+        padding: 0 0 0 .5em;
+        margin: .5em 0 .5em 0;
+        p {
+            
+            margin: 0 0 1em 1.5em;
+        }
+        img {
+            width: 4em;
+            height: 4em;
+            border-radius: 50%;
+        }
     }
     h3 {
         margin: 0 0 .5em 0;
+        border: solid $color-one;
+        border-width: 0 0 2px 0;
         .date-post {
             font-weight: normal;
             margin-left: .5em;
@@ -23,6 +38,7 @@
             text-decoration: underline;
         }
     }
+    
     .react-post {
         display: flex;
         margin-left: 1.5em;

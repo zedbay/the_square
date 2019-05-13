@@ -6,7 +6,11 @@
 			<span
 				class="date-post">{{ post.content.properties.date | date: 'longDate' }}</span>
 		</h3>
-		<p class="content-post">{{ post.content.properties.message }}</p>
+		<div class="post-content">
+			<img src="../../../assets/{{ post.author.properties.photo }}"
+				alt="{{ post.author.properties.name }}">
+			<p>{{ post.content.properties.message }}</p>
+		</div>
 		<div class="react-post">
 			<fa-icon [icon]="faThumbsUp" (click)="onReactPost(post, 'LIKE')">
 			</fa-icon>

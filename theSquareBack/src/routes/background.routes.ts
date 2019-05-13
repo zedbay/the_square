@@ -18,7 +18,7 @@ export class BackgroundRoutes {
 		});
 		router.get('/formation/person/:idPerson', (req, res) => {
 			FormationHandler.get(req, res);
-		});	
+		});
 	}
 
 	private static mountPrivateRoutes(router: Router) {
@@ -29,10 +29,10 @@ export class BackgroundRoutes {
 			ExperienceHandler.delete(req, res);
 		});
 		router.post('/formation', checkJwt, (req, res) => {
-			FormationHandler.create(res, res);
+			FormationHandler.create(req, res);
 		});
 		router.delete('/formation/:entitled', checkJwt, (req, res) => {
-			FormationHandler.delete(res, res);
+			FormationHandler.delete(req, res);
 		});
 	}
 }
