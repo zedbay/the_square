@@ -23,5 +23,5 @@ class App {
 const app = new App().express;
 process.setMaxListeners(100);
 app.listen(config['port'], () => {
-    console.log(`Server running on port ${config['port']}`);
+  console.log(`Server running on port ${config['port']}`);
 });

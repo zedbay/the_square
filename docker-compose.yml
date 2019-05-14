@@ -28,23 +28,40 @@ services:
     networks:
       - the-square-network
 
-  # angular:
-  #   image: node:latest
-  #   working_dir: /usr/src/app/theSquareFront
-  #   ports:
-  #     - "4200:4200"
-  #   expose:
-  #     - "4200"
-  #   links:
-  #     - "express:express"
-  #   depends_on:
-  #     - neo4j
-  #     - express
-  #   volumes:
-  #     - ./theSquareFront:/usr/src/app/theSquareFront
-  #   networks:
-  #     - the-square-network
-  #   command: bash -c "npm i -g @angular/cli && npm i && ng serve --host 0.0.0.0 --port 4200"
+  admin-express:
+    image: node:latest
+    working_dir: /usr/src/app/theSquareAdmin
+    ports:
+      - "8081:8081"
+    expose: 
+      - "8081"
+    depends_on:
+      - neo4j
+      - express
+    volumes:
+      - ./theSquareAdmin:/usr/src/app/theSquareAdmin
+    command: bash -c "npm i && npm run dev"
+    networks:
+      - the-square-network
+
+  angular:
+    image: node:latest
+    working_dir: /usr/src/app/theSquareFront
+    ports:
+      - "4200:4200"
+    expose:
+      - "4200"
+    links:
+      - "express:express"
+    depends_on:
+      - neo4j
+      - express
+      - admin-express
+    volumes:
+      - ./theSquareFront:/usr/src/app/theSquareFront
+    networks:
+      - the-square-network
+    command: bash -c "npm i -g @angular/cli && npm i && ng serve --host 0.0.0.0 --port 4200"
 
 networks:
   the-square-network:
